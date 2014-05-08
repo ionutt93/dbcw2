@@ -1,5 +1,7 @@
+﻿DROP TABLE IF EXISTS "user", ach, game, "gameOwn", "gameCat" CASCADE;
+DROP TABLE IF EXISTS friend, "gameAch", "gameOwnAch", category CASCADE;
+
 -- Create table "user"
-DROP TABLE IF EXISTS "user";
 CREATE TABLE "user"(
     id serial PRIMARY KEY,
     username varchar(50) NOT NULL UNIQUE,
@@ -12,48 +14,37 @@ CREATE TABLE "user"(
     lastLogin timestamp with time zone,
     loggedIn boolean NOT NULL,
     online boolean NOT NULL,
-    avatar varchar(200)
+    avatar varchar(255)
 );
 
 -- Create table "friend"
-DROP TABLE IF EXISTS friend;
 CREATE TABLE friend (
     id serial PRIMARY KEY,
-    userid1 integer NOT NULL,
-    userid2 integer NOT NULL
+    userId1 integer NOT NULL REFERENCES "user"(id),
+    userId2 integer NOT NULL REFERENCES "user"(id)
 );
 
 -- Create table "ach"
-DROP TABLE IF EXISTS "ach" CASCADE;
-CREATE TABLE "ach" (
+CREATE TABLE ach (
     id serial PRIMARY KEY,
-    title varchar(50) UNIQUE
+    title varchar(50) NOT NULL UNIQUE
 );
 
 -- Create table "gameAch"
-DROP TABLE IF EXISTS "gameAch";
 CREATE TABLE "gameAch" (
     id serial PRIMARY KEY,
     achId integer NOT NULL REFERENCES ach(id),
     gameId integer NOT NULL,
-    value integer,
-    show boolean,
+    value integer NOT NULL,
+    show boolean NOT NULL DEFAULT FALSE,
     descrBefore text,
     descrAfter text,
     icon varchar(255)
 );
 
--- Create table "gameOwnAch"
-DROP TABLE IF EXISTS "gameOwnAch";
-CREATE TABLE "gameOwnAch" (
-    gameOwn integer NOT NULL, --REFERENCES gameOwn(id),
-    achId integer NOT NULL REFERENCES ach(id),
-    dateAchieved timestamp with time zone 
-);
-
-DROP TABLE IF EXISTS "game", category, gameCat;
-CREATE TABLE "game" (
-    ID serial PRIMARY KEY,
+-- Create table "game"
+CREATE TABLE game (
+    id serial PRIMARY KEY,
     name varchar(255),
     description text,
     releaseDate date NOT NULL,
@@ -65,17 +56,38 @@ CREATE TABLE "game" (
     website varchar(255)
 );
 
+-- Create table "gameOwn"
+CREATE TABLE "gameOwn" (
+    id serial PRIMARY KEY,
+    userID integer REFERENCES "user"(id),
+    gameID integer REFERENCES game(id),
+    rating integer CHECK (rating >= 0 AND rating <= 5),
+    comment text,
+    lastPlayed timestamp with time zone,
+    highScore double precision NOT NULL DEFAULT 0,
+    receiveNotif boolean NOT NULL DEFAULT TRUE
+);
+
+-- Create table "gameOwnAch"
+CREATE TABLE "gameOwnAch" (
+    gameOwn integer NOT NULL REFERENCES "gameOwn"(id),
+    achId integer NOT NULL REFERENCES ach(id),
+    dateAchieved timestamp with time zone 
+);
+
+-- Create table "category"
 CREATE TABLE category(
-    ID serial PRIMARY KEY,
+    id serial PRIMARY KEY,
     name varchar(255) NOT NULL,
     rating integer CHECK (rating >= 0 AND rating <= 5)
 );
 
-CREATE TABLE gameCat(
-    ID serial PRIMARY KEY,
-    catID integer REFERENCES category(ID),
-    gameID integer REFERENCES "game"(ID),
+-- Create table "gameCat"
+CREATE TABLE "gameCat"(
+    id serial PRIMARY KEY,
+    catId integer REFERENCES category(id),
+    gameId integer REFERENCES game(id),
     rank integer,
-    UNIQUE (catID, gameID)
+    UNIQUE (catId, gameId)
 );
 
