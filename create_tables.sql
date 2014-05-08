@@ -51,7 +51,7 @@ CREATE TABLE "gameOwnAch" (
     dateAchieved timestamp with time zone 
 );
 
-DROP TABLE IF EXISTS "game", category, gameCat;
+DROP TABLE IF EXISTS "game", category, gameCat, gameOwn;
 CREATE TABLE "game" (
     ID serial PRIMARY KEY,
     name varchar(255),
@@ -79,3 +79,14 @@ CREATE TABLE gameCat(
     UNIQUE (catID, gameID)
 );
 
+
+CREATE TABLE gameOwn (
+    id serial PRIMARY KEY,
+    userID integer REFERENCES "user"(id),
+    gameID integer REFERENCES "game"(id),
+    rating integer NOT NULL CHECK (rating >= 0 AND rating <= 5),
+    comment text NOT NULL,
+    lastPlayed timestamp with time zone,
+    highScore double precision NOT NULL DEFAULT 0,
+    receiveNotif boolean NOT NULL DEFAULT TRUE
+);
