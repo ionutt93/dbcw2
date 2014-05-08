@@ -1,3 +1,4 @@
+-- Create tabe "user"
 DROP TABLE IF EXISTS "user";
 CREATE TABLE "user"(
     id serial PRIMARY KEY,
@@ -12,3 +13,12 @@ CREATE TABLE "user"(
     loggedIn boolean NOT NULL,
     online boolean NOT NULL,
     avatar varchar(200) );
+
+-- Create table "friend"
+DROP TABLE IF EXISTS friend;
+CREATE TABLE friend (
+    id serial PRIMARY KEY,
+    userid1 integer NOT NULL,
+    userid2 integer NOT NULL
+);
+
