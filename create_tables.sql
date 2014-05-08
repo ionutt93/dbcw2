@@ -1,5 +1,5 @@
 -- Create table "user"
-DROP TABLE IF EXISTS "user";
+DROP TABLE IF EXISTS "user" CASCADE;
 CREATE TABLE "user"(
     id serial PRIMARY KEY,
     username varchar(50) NOT NULL UNIQUE,
@@ -46,12 +46,12 @@ CREATE TABLE "gameAch" (
 -- Create table "gameOwnAch"
 DROP TABLE IF EXISTS "gameOwnAch";
 CREATE TABLE "gameOwnAch" (
-    gameOwn integer NOT NULL, --REFERENCES gameOwn(id),
+    gameOwn integer NOT NULL REFERENCES gameOwn(id),
     achId integer NOT NULL REFERENCES ach(id),
     dateAchieved timestamp with time zone 
 );
 
-DROP TABLE IF EXISTS "game", category, gameCat, gameOwn;
+DROP TABLE IF EXISTS "game", category, gameCat, gameOwn CASCADE;
 CREATE TABLE "game" (
     ID serial PRIMARY KEY,
     name varchar(255),
