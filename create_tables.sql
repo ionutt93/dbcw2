@@ -12,7 +12,7 @@ CREATE TABLE "user"(
     lastLogin timestamp with time zone,
     loggedIn boolean NOT NULL,
     online boolean NOT NULL,
-    avatar varchar(200)
+    avatar varchar(255)
 );
 
 -- Create table "friend"
