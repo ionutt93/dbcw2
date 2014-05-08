@@ -1,4 +1,4 @@
--- Create tabe "user"
+-- Create table "user"
 DROP TABLE IF EXISTS "user";
 CREATE TABLE "user"(
     id serial PRIMARY KEY,
