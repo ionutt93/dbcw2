@@ -3,7 +3,7 @@ require 'digest/sha1'
 require 'rubystats'
 salt = 'saltysalt'
 
-n = 100
+n = 15
 
 puts 'INSERT INTO "category" 
 (name, rating) VALUES '
