@@ -15,3 +15,37 @@ INSERT INTO "category"
 ('Schulist-Mertz','2'), 
 ('Sipes-Harris','5'), 
 ('Crist LLC','5')
+INSERT INTO "category" 
+(name, rating) VALUES 
+('Nader Group','3'), 
+('Hammes and Sons','4'), 
+('Gaylord, Renner and Sawayn','5'), 
+('Larson Group','3'), 
+('Konopelski, Fahey and Wyman','3'), 
+('OConner IncConner IncConner Inc','3'), 
+('Parker and Sons','4'), 
+('Zboncak, Kovacek and Barrows','2'), 
+('Wilderman LLC','5'), 
+('Lindgren Group','3'), 
+('Lueilwitz-Murazik','4'), 
+('Maggio-Kunde','3'), 
+('Heller Group','5'), 
+('Hudson, Heathcote and Bosco','4'), 
+('Powlowski Group','3')
+INSERT INTO "category" 
+(name, rating) VALUES 
+('Kub-Powlowski','4'), 
+('Schumm-Parisian','2'), 
+('Reynolds-OReillyReillyReilly','3'), 
+('Schiller Inc','4'), 
+('Runolfsson, Adams and Runolfsdottir','5'), 
+('Kreiger, Abbott and Schoen','3'), 
+('Wehner LLC','3'), 
+('Langosh-Krajcik','4'), 
+('Huels, Turcotte and Fay','4'), 
+('Thompson Inc','3'), 
+('Auer Group','3'), 
+('Skiles, Towne and Beer','4'), 
+('Jacobi and Sons','4'), 
+('Batz, Brakus and Thiel','4'), 
+('Jast, Boehm and Adams','4')

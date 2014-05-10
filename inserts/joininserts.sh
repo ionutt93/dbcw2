@@ -2,8 +2,9 @@
 
 OUTPUT=inserts.sql
 echo "" > $OUTPUT
+mkdir sql
 for f in *.rb
 do
-    ruby $f >> $OUTPUT
-    echo ";" >> $OUTPUT
+    ruby $f >> sql/$f.sql
+    #echo ";" >> $OUTPUT
 done
