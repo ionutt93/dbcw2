@@ -1,5 +1,5 @@
 -- For the second question
-DROP TRIGGER check_update;
+DROP TRIGGER IF EXISTS check_update ON "gameOwn";
 CREATE TRIGGER check_update
 	AFTER UPDATE OF rating ON "gameOwn"
 	FOR EACH ROW
