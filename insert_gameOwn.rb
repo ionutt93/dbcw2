@@ -3,7 +3,7 @@ require 'digest/sha1'
 require 'rubystats'
 salt = 'saltysalt'
 
-n = 800
+n = 100
 
 date_min = Date.new(2010,01,01).to_time.to_i
 date_max = Date.new(2014,01,01).to_time.to_i
@@ -16,8 +16,8 @@ n.times do |i|
     high = Rubystats::NormalDistribution.new(100,20).rng.round
     rating = [1,[Rubystats::NormalDistribution.new(3.5,1).rng.round,5].min].max
 
-    user_id = [1,[Rubystats::NormalDistribution.new(50,20).rng.round,100].min].max
-    game_id = [1,[Rubystats::NormalDistribution.new(20,10).rng.round,100].min].max
+    user_id = ((i+1) / 10).floor
+    game_id = i+1 
     
     puts "(#{user_id},#{game_id},#{rating},'#{comment}','#{last_played} BST' :: timestamp with time zone,#{high})" +
       (if i < (n-1) then ', ' else '' end)
