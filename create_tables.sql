@@ -1,5 +1,5 @@
 ﻿DROP TABLE IF EXISTS "user", ach, game, "gameOwn","gameOwnAch","gameCat" CASCADE;
-DROP TABLE IF EXISTS friend, "gameAch", category;
+DROP TABLE IF EXISTS friend, "gameAch", category CASCADE;
 
 -- Create table "user"
 CREATE TABLE "user"(
