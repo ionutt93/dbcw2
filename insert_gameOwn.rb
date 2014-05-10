@@ -3,7 +3,7 @@ require 'digest/sha1'
 require 'rubystats'
 salt = 'saltysalt'
 
-n = 100
+n = 800
 
 date_min = Date.new(2010,01,01).to_time.to_i
 date_max = Date.new(2014,01,01).to_time.to_i
