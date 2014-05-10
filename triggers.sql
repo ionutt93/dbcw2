@@ -1,7 +1,7 @@
 -- For the second question
-DROP TRIGGER IF EXISTS check_update ON "gameOwn";
+DROP TRIGGER IF EXISTS check_update ON gameOwn;
 CREATE TRIGGER check_update
-	AFTER UPDATE OF rating ON "gameOwn"
+	AFTER UPDATE OF rating ON gameOwn
 	FOR EACH ROW
 	EXECUTE PROCEDURE check_rating_update();
 
