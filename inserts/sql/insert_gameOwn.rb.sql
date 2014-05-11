@@ -1,14 +1,5 @@
 INSERT INTO gameOwn 
 (userID,gameID,rating,comment,lastPlayed,highScore) VALUES 
-(1,0,3,'necessitatibus eos ex aperiam est libero a nobis reprehenderit earum placeat aut qui laboriosam unde sint non porro aut nulla','2010-10-10 11:05:57 BST' :: timestamp with time zone,115), 
-(2,0,4,'sapiente consequatur hic est quia ratione qui quo perspiciatis quos eius eveniet dolorum illum et veritatis saepe et quas ipsum','2010-05-12 17:59:58 BST' :: timestamp with time zone,121), 
-(3,0,3,'minima tenetur nisi et neque dolorum est aut eaque omnis eos quo est deleniti aut at quam unde odit et','2011-07-02 21:15:20 BST' :: timestamp with time zone,130), 
-(4,0,5,'pariatur est modi qui quos atque omnis recusandae tenetur totam amet ipsam voluptatem earum inventore possimus dolore ex consequatur et','2013-12-07 08:54:16 BST' :: timestamp with time zone,81), 
-(5,0,4,'sint aut ducimus libero unde ipsum molestias reprehenderit quas vel quo itaque aut nihil quaerat fuga voluptatem sed ut voluptas','2010-03-09 01:50:53 BST' :: timestamp with time zone,117), 
-(6,0,3,'iusto et reiciendis odio sunt repellendus modi officia inventore tempora illum labore cumque nobis fugiat eius quaerat doloribus quas possimus','2012-03-29 09:43:42 BST' :: timestamp with time zone,85), 
-(7,0,2,'qui sapiente voluptatem distinctio harum nihil officiis ducimus et fugiat aut maiores quia explicabo aut eum numquam pariatur laudantium quis','2011-11-29 00:25:00 BST' :: timestamp with time zone,89), 
-(8,0,1,'unde ut adipisci qui nobis quisquam dolorem non vero laudantium odio qui et nulla dolorum accusamus aliquid omnis eum vitae','2012-10-20 23:10:00 BST' :: timestamp with time zone,113), 
-(9,0,4,'debitis consequatur libero soluta nihil velit cupiditate nulla aut harum amet rem consequatur ullam dolor quasi maiores et aut cum','2012-01-21 15:37:48 BST' :: timestamp with time zone,112), 
 (10,1,3,'nostrum optio sapiente expedita explicabo ut et accusantium reiciendis voluptates sint laboriosam rerum dicta perspiciatis cum consequatur qui molestias autem','2013-02-01 07:25:31 BST' :: timestamp with time zone,123), 
 (11,1,4,'et excepturi eos accusamus dolorem nostrum sunt qui non incidunt sit quidem est sequi debitis sunt consequuntur ut impedit eum','2012-10-21 00:22:06 BST' :: timestamp with time zone,122), 
 (12,1,5,'ipsam et inventore quia sunt mollitia perferendis sapiente quis hic ea iusto quia vero quasi eum tenetur soluta asperiores eos','2011-05-20 14:24:59 BST' :: timestamp with time zone,76), 
