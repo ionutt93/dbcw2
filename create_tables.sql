@@ -66,6 +66,7 @@ CREATE TABLE gameOwn (
     lastPlayed timestamp with time zone,
     highScore double precision NOT NULL DEFAULT 0,
     receiveNotif boolean NOT NULL DEFAULT TRUE
+    rank integer
 );
 
 -- Create table "gameOwnAch"
