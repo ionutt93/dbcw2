@@ -1,13 +1,15 @@
 -- For the second question
-DROP TRIGGER check_update;
+DROP TRIGGER IF EXISTS check_update ON gameOwn;
 CREATE TRIGGER check_update
-	AFTER UPDATE OF rating ON "gameOwn"
+	AFTER UPDATE OR INSERT ON gameOwn
 	FOR EACH ROW
 	EXECUTE PROCEDURE check_rating_update();
 
 CREATE OR REPLACE FUNCTION check_rating_update() RETURNS trigger AS $$
 BEGIN 
-	insert into dimitri (name,rating) values ('Dimiri',NEW.rating);
-	RETURN NEW;
+	UPDATE game SET
+        avgRate = (SELECT AVG(rating) FROM gameOwn WHERE gameOwn.gameId = NEW.gameId)
+    WHERE id = NEW.gameId;
+	RETURN NULL;
 END;
 $$ LANGUAGE plpgsql;
