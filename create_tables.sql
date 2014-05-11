@@ -1,4 +1,4 @@
-﻿DROP TABLE IF EXISTS "user", ach, game, "gameOwn","gameOwnAch","gameCat" CASCADE;
+﻿DROP TABLE IF EXISTS "user", ach, game, gameOwn,"gameOwnAch","gameCat" CASCADE;
 DROP TABLE IF EXISTS friend, "gameAch", category CASCADE;
 
 -- Create table "user"
@@ -56,8 +56,8 @@ CREATE TABLE game (
     website varchar(255)
 );
 
--- Create table "gameOwn"
-CREATE TABLE "gameOwn" (
+-- Create table gameOwn
+CREATE TABLE gameOwn (
     id serial PRIMARY KEY,
     userID integer REFERENCES "user"(id),
     gameID integer REFERENCES game(id),
@@ -70,7 +70,7 @@ CREATE TABLE "gameOwn" (
 
 -- Create table "gameOwnAch"
 CREATE TABLE "gameOwnAch" (
-    gameOwn integer NOT NULL REFERENCES "gameOwn"(id),
+    gameOwn integer NOT NULL REFERENCES gameOwn(id),
     achId integer NOT NULL REFERENCES ach(id),
     dateAchieved timestamp with time zone 
 );
