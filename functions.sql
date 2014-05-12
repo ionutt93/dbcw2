@@ -6,6 +6,8 @@ DECLARE
     totalu int;
     ranku int;
     highscoreu int;
+    pc int;
+    pctext character varying;
 BEGIN 
     totalu := count(highscore) FROM gameOwn JOIN game ON game.name = q4.gamename 
         AND game.id = gameOwn.gameid;
@@ -15,7 +17,13 @@ BEGIN
     JOIN "user" u ON u.id = gameOwn.userid
     JOIN game ON game.id = gameown.gameid AND game.name = q4.gamename) AS sq 
     WHERE sq.username = q4.username;
-    q4.op := format('%s points - %s',highscoreu,ranku);
+    pc := 100*ranku/CAST(totalu AS double precision);
+    pctext := 'Top';
+    IF pc > 50 THEN
+        pc := 100 - pc;
+        pctext := 'Bottom';
+    END IF;
+    q4.op := format('%s points - %s (%s %s%%)',highscoreu,ranku,pctext,pc);
     RETURN next;
 END;
 $$ LANGUAGE plpgsql;
