@@ -68,7 +68,7 @@ CREATE TABLE gameOwn (
     rating integer CHECK (rating >= 0 AND rating <= 5),
     comment text,
     lastPlayed timestamp with time zone,
-    highScore double precision NOT NULL DEFAULT 0,
+    highScore integer NOT NULL DEFAULT 0,
     receiveNotif boolean NOT NULL DEFAULT TRUE,
     rank integer
 );

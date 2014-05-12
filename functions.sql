@@ -1,6 +1,6 @@
 -- Question 4
 CREATE OR REPLACE FUNCTION q4(IN username varchar(255), IN gamename character varying) 
-RETURNS table(op varchar(255)) AS $$
+RETURNS table(op varchar(255)) AS $$ 
 DECLARE
     op character varying;
     totalu int;
@@ -30,7 +30,6 @@ $$ LANGUAGE plpgsql;
 
 
 -- Question 10
-
 CREATE OR REPLACE FUNCTION send_friend_request(
     IN username1 character varying, 
     IN username2 character varying,
@@ -41,7 +40,6 @@ DECLARE
     friend_status friendStatus;
 
 BEGIN 
-
     SELECT INTO target_id id FROM "user" AS u 
     WHERE u.username = send_friend_request.username2 OR 
         u.email = send_friend_request.email;
@@ -83,3 +81,43 @@ BEGIN
     UPDATE friend SET status = friend_request_action.action WHERE id = friend_id;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION me_or_game_friends(
+    IN username character varying, -- my username
+    IN gamename character varying) -- game name
+RETURNS character varying[] AS $$
+DECLARE
+    friends character varying[];
+BEGIN
+    SELECT array_agg(array_remove(ARRAY[u1.username,u2.username],me_or_game_friends.username)) INTO friends
+    FROM friend
+        JOIN "user" u1 ON u1.id = friend.userid1
+        JOIN "user" u2 ON u2.id = friend.userid2
+        WHERE me_or_game_friends.username IN (u1.username,u2.username);
+    RETURN friends;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION friend_leaderboard(
+    IN username character varying, -- my username
+    IN gamename character varying) -- game name
+RETURNS TABLE(trank bigint, thighscore int, tusername character varying) AS $$
+DECLARE
+    myuid int;
+    totalu int;
+BEGIN 
+    SELECT INTO totalu count(highscore) FROM gameOwn JOIN game ON game.name = q4.gamename 
+        AND game.id = gameOwn.gameid;
+    SELECT INTO myuid id FROM "user" AS u WHERE u.username = friend_leaderboard.username;
+
+
+    RETURN QUERY SELECT row_number() OVER (ORDER BY highscore DESC) AS rank,
+        highscore,u.username FROM gameOwn
+    JOIN "user" u ON u.id = gameOwn.userid
+    JOIN friend ON 
+    ((friend.userid1 = u.id AND friend.userid2 = myuid) OR 
+    (friend.userid2 = u.id AND friend.userid1 = myuid))
+    JOIN game ON game.id = gameown.gameid AND game.name = friend_leaderboard.gamename;
+END;
+$$ LANGUAGE plpgsql;
+
