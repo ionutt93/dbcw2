@@ -53,7 +53,9 @@ CREATE TABLE game (
     avgRate integer,
     rank integer,
     img varchar(255),
-    website varchar(255)
+    website varchar(255),
+    minimum integer DEFAULT 0,
+    maximum integer
 );
 
 -- Create table gameOwn
@@ -65,7 +67,8 @@ CREATE TABLE gameOwn (
     comment text,
     lastPlayed timestamp with time zone,
     highScore double precision NOT NULL DEFAULT 0,
-    receiveNotif boolean NOT NULL DEFAULT TRUE
+    receiveNotif boolean NOT NULL DEFAULT TRUE,
+    rank integer
 );
 
 -- Create table "gameOwnAch"
