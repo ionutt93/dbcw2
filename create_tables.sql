@@ -17,11 +17,13 @@ CREATE TABLE "user"(
     avatar varchar(255)
 );
 
+CREATE TYPE friendStatus AS ENUM ('rejected','awaiting','accepted');
 -- Create table "friend"
 CREATE TABLE friend (
     id serial PRIMARY KEY,
     userId1 integer NOT NULL REFERENCES "user"(id),
-    userId2 integer NOT NULL REFERENCES "user"(id)
+    userId2 integer NOT NULL REFERENCES "user"(id),
+    status friendStatus NOT NULL DEFAULT 'awaiting'
 );
 
 -- Create table "ach"

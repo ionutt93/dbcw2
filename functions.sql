@@ -27,3 +27,26 @@ BEGIN
     RETURN next;
 END;
 $$ LANGUAGE plpgsql;
+
+
+-- Question 5
+
+CREATE OR REPLACE FUNCTION send_friend_request(
+    IN username1 character varying, 
+    IN username2 character varying,
+    IN email character varying) 
+RETURNS void AS $$
+DECLARE
+    target_id int;
+BEGIN 
+    SELECT INTO target_id id FROM "user" AS u 
+    WHERE u.username = send_friend_request.username2 OR 
+        u.email = send_friend_request.email;
+    IF target_id IS NULL THEN
+        RAISE EXCEPTION 'Cannot find user';
+    END IF;
+    INSERT INTO friend(userid1,userid2) VALUES (
+        (SELECT id FROM "user" AS u WHERE u.username = send_friend_request.username1),
+        target_id);
+END;
+$$ LANGUAGE plpgsql;
