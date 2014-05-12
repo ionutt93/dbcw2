@@ -29,7 +29,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 
--- Question 5
+-- Question 10
 
 CREATE OR REPLACE FUNCTION send_friend_request(
     IN username1 character varying, 
@@ -38,15 +38,48 @@ CREATE OR REPLACE FUNCTION send_friend_request(
 RETURNS void AS $$
 DECLARE
     target_id int;
+    friend_status friendStatus;
+
 BEGIN 
+
     SELECT INTO target_id id FROM "user" AS u 
     WHERE u.username = send_friend_request.username2 OR 
         u.email = send_friend_request.email;
     IF target_id IS NULL THEN
         RAISE EXCEPTION 'Cannot find user';
     END IF;
+
+    SELECT friend.status INTO friend_status FROM friend
+    JOIN "user" u1 ON u1.id = friend.userid1 AND u1.username = 
+        send_friend_request.username1 AND friend.userid2 = target_id;
+
+    IF friend_status IS NOT NULL THEN
+        RAISE EXCEPTION 'Cannot send friend request, last attempt status is %', friend_status;
+    END IF;
     INSERT INTO friend(userid1,userid2) VALUES (
         (SELECT id FROM "user" AS u WHERE u.username = send_friend_request.username1),
         target_id);
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION friend_request_action(
+    IN username1 character varying, -- my username
+    IN username2 character varying, -- user who sent the request
+    IN action friendStatus)
+RETURNS void AS $$
+DECLARE
+    friend_id int;
+BEGIN 
+    SELECT friend.id INTO friend_id FROM friend
+    JOIN "user" u1 ON u1.id = friend.userid1 AND u1.username = 
+        friend_request_action.username2
+    JOIN "user" u2 ON u2.id = friend.userid2 AND u2.username = 
+        friend_request_action.username1 
+    WHERE friend.status = 'awaiting'::friendStatus;
+
+    IF friend_id IS NULL THEN
+        RAISE EXCEPTION 'Cannot find request';
+    END IF;
+    UPDATE friend SET status = friend_request_action.action WHERE id = friend_id;
 END;
 $$ LANGUAGE plpgsql;
