@@ -124,3 +124,28 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Question 13
+CREATE OR REPLACE FUNCTION show_achievements(
+    IN username character varying, --username
+    IN gameid int) --game name
+RETURNS character varying AS $$ 
+DECLARE
+    total_achievements int;
+    user_achievements int;
+    user_id int;
+    game_own_ach_id int;
+    total_value int;
+BEGIN
+    -- count how many achievements a given game has
+    SELECT count(ID) INTO total_achievements FROM gameAch WHERE ID=gameid;
+    -- find user ID given username
+    SELECT ID INTO user_id FROM "user" WHERE user.username=username;
+    -- select id from gameOwn
+    SELECT ID INTO game_own_ach_id FROM gameOwn WHERE userID = user_id AND gameOwn.gameID = gameid;
+    -- count how many achievements the user has unlocked
+    SELECT COUNT(achID) INTO user_achievements from gameOwnAch WHERE gameOwnAch.gameOwnID = game_own_ach_id;
+    -- count number of points the user has for this game
+    SELECT COUNT(value) FROM gameAch WHERE achID IN (SELECT achID INTO user_achievements from gameOwnAch WHERE gameOwnAch.gameOwnID = game_own_ach_id);
+    RETURN "% of % achievements (% points)", user_achievements, total_achievements, total_value;
+END;
+$$ LANGUAGE plpgsql;
