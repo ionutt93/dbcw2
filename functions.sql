@@ -87,13 +87,16 @@ CREATE OR REPLACE FUNCTION me_or_game_friends(
     IN gamename character varying) -- game name
 RETURNS character varying[] AS $$
 DECLARE
-    friends character varying[];
+    friends text[];
 BEGIN
-    SELECT array_agg(array_remove(ARRAY[u1.username,u2.username],me_or_game_friends.username)) INTO friends
+    friends := array(
+    SELECT 
+        (array_remove(ARRAY[u1.username,u2.username],me_or_game_friends.username))[1]
     FROM friend
         JOIN "user" u1 ON u1.id = friend.userid1
         JOIN "user" u2 ON u2.id = friend.userid2
-        WHERE me_or_game_friends.username IN (u1.username,u2.username);
+        WHERE me_or_game_friends.username IN (u1.username,u2.username));
+    friends := array_append(friends,me_or_game_friends.username::text);
     RETURN friends;
 END;
 $$ LANGUAGE plpgsql;
