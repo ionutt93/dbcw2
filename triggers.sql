@@ -41,23 +41,6 @@ CREATE TRIGGER show_rating
 	FOR EACH ROW
 	EXECUTE PROCEDURE count_rating();
 
--- For question 4
--- CREATE OR REPLACE FUNCTION change_rank() RETURNS trigger AS $$
--- BEGIN 
--- 	-- Find the first user whose highScore is above the new highScore
--- 	-- TO BE TESTED
--- 	SELECT highScore,rank FROM (SELECT (*) FROM gameOwn WHERE highScore > NEW.highScore AND gameId = NEW.gameID) WHERE highScore = 
--- 	SELECT MIN(highScore) FROM (SELECT (*) FROM gameOwn WHERE highScore > NEW.highScore AND gameId = NEW.gameID) AND gameID = NEW.gameID
-
--- END;
--- $$ LANGUAGE plpgsql;
-
--- DROP TRIGGER IF EXISTS update_rank ON gameOwn;
--- CREATE TRIGGER update_rank
--- 	AFTER UPDATE OF highScore ON gameOwn
--- 	FOR EACH ROW 
--- 	EXECUTE PROCEDURE change_rank();
-
 --Question 6
 CREATE OR REPLACE FUNCTION check_score_range() RETURNS trigger AS $$
 BEGIN 
