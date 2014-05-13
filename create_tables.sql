@@ -17,11 +17,14 @@ CREATE TABLE "user"(
     avatar varchar(255)
 );
 
+DROP TYPE IF EXISTS friendStatus CASCADE;
+CREATE TYPE friendStatus AS ENUM ('rejected','awaiting','accepted');
 -- Create table "friend"
 CREATE TABLE friend (
     id serial PRIMARY KEY,
     userId1 integer NOT NULL REFERENCES "user"(id),
-    userId2 integer NOT NULL REFERENCES "user"(id)
+    userId2 integer NOT NULL REFERENCES "user"(id),
+    status friendStatus NOT NULL DEFAULT 'awaiting'
 );
 
 -- Create table "ach"
@@ -66,7 +69,7 @@ CREATE TABLE gameOwn (
     rating integer CHECK (rating >= 0 AND rating <= 5),
     comment text,
     lastPlayed timestamp with time zone,
-    highScore double precision NOT NULL DEFAULT 0,
+    highScore integer NOT NULL DEFAULT 0,
     receiveNotif boolean NOT NULL DEFAULT TRUE,
     rank integer
 );
