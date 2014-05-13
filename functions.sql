@@ -108,8 +108,10 @@ RETURNS TABLE(trank bigint, thighscore int, tusername character varying) AS $$
 DECLARE
     myuid int;
     totalu int;
+    friends character varying[];
 BEGIN 
-    SELECT INTO totalu count(highscore) FROM gameOwn JOIN game ON game.name = q4.gamename 
+    friends :=  me_or_game_friends(friend_leaderboard.username,friend_leaderboard.gamename);
+    SELECT INTO totalu count(highscore) FROM gameOwn JOIN game ON game.name = friend_leaderboard.gamename 
         AND game.id = gameOwn.gameid;
     SELECT INTO myuid id FROM "user" AS u WHERE u.username = friend_leaderboard.username;
 
@@ -117,10 +119,8 @@ BEGIN
     RETURN QUERY SELECT row_number() OVER (ORDER BY highscore DESC) AS rank,
         highscore,u.username FROM gameOwn
     JOIN "user" u ON u.id = gameOwn.userid
-    JOIN friend ON 
-    ((friend.userid1 = u.id AND friend.userid2 = myuid) OR 
-    (friend.userid2 = u.id AND friend.userid1 = myuid))
-    JOIN game ON game.id = gameown.gameid AND game.name = friend_leaderboard.gamename;
+    JOIN game ON game.id = gameown.gameid AND game.name = friend_leaderboard.gamename
+    WHERE u.username =  ANY(friends);
 END;
 $$ LANGUAGE plpgsql;
 
