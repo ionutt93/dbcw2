@@ -17,6 +17,7 @@ CREATE TABLE "user"(
     avatar varchar(255)
 );
 
+DROP TYPE IF EXISTS friendStatus CASCADE;
 CREATE TYPE friendStatus AS ENUM ('rejected','awaiting','accepted');
 -- Create table "friend"
 CREATE TABLE friend (
