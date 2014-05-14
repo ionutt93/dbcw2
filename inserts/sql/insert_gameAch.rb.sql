@@ -1,7 +1,7 @@
 INSERT INTO "gameAch" 
 (achID,gameID,value,show,descrBefore,descrAfter,icon) VALUES 
-('12','31','38','TRUE','["Non consectetur voluptatem soluta numquam distinctio voluptas."]','["Aut laudantium minus."]','http://schowalterkoch.biz/rachael'), 
-('7','3','86','TRUE','["Suscipit voluptatibus voluptatem explicabo debitis nam dolor."]','["Qui perspiciatis incidunt ullam animi et et illo."]','http://jenkins.org/mikayla'), 
+('1','1','38','TRUE','["Non consectetur voluptatem soluta numquam distinctio voluptas."]','["Aut laudantium minus."]','http://schowalterkoch.biz/rachael'), 
+('7','1','86','TRUE','["Suscipit voluptatibus voluptatem explicabo debitis nam dolor."]','["Qui perspiciatis incidunt ullam animi et et illo."]','http://jenkins.org/mikayla'), 
 ('5','91','74','FALSE','["Assumenda fugiat quisquam id quidem beatae deleniti."]','["Culpa vel quisquam cupiditate id nobis aut quod."]','http://paucek.com/jason.brown'), 
 ('15','35','30','TRUE','["Ducimus ut asperiores."]','["Quam nisi ut impedit."]','http://johnskuhlman.com/lori'), 
 ('1','80','49','FALSE','["Est eos delectus possimus."]','["Amet inventore magni consectetur non suscipit."]','http://daugherty.org/krystal_ullrich'), 
