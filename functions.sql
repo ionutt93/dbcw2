@@ -1,4 +1,4 @@
--- Question 4
+﻿-- Question 4
 CREATE OR REPLACE FUNCTION q4(IN username varchar(255), IN gamename character varying) 
 RETURNS table(op varchar(255)) AS $$ 
 DECLARE
@@ -125,9 +125,10 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Question 13
+DROP FUNCTION show_achievements(character varying,integer);
 CREATE OR REPLACE FUNCTION show_achievements(
-    IN username character varying, --username
-    IN gameid int) --game name
+    IN username_f character varying, --username
+    IN gameid_f int) --game name
 RETURNS character varying AS $$ 
 DECLARE
     total_achievements int;
@@ -135,17 +136,18 @@ DECLARE
     user_id int;
     game_own_ach_id int;
     total_value int;
+
 BEGIN
     -- count how many achievements a given game has
-    SELECT count(ID) INTO total_achievements FROM gameAch WHERE ID=gameid;
+    SELECT count(ID) INTO total_achievements FROM "gameAch" WHERE "gameAch".ID=gameid_f;
     -- find user ID given username
-    SELECT ID INTO user_id FROM "user" WHERE user.username=username;
+    SELECT ID INTO user_id FROM "user" WHERE "user".username=username_f;
     -- select id from gameOwn
-    SELECT ID INTO game_own_ach_id FROM gameOwn WHERE userID = user_id AND gameOwn.gameID = gameid;
+    SELECT ID INTO game_own_ach_id FROM gameOwn WHERE userID = user_id AND gameOwn.gameID = gameid_f;
     -- count how many achievements the user has unlocked
-    SELECT COUNT(achID) INTO user_achievements from gameOwnAch WHERE gameOwnAch.gameOwnID = game_own_ach_id;
+    SELECT COUNT(achID) INTO user_achievements from "gameOwnAch" WHERE "gameOwnAch".gameOwn = game_own_ach_id;
     -- count number of points the user has for this game
-    SELECT COUNT(value) FROM gameAch WHERE achID IN (SELECT achID INTO user_achievements from gameOwnAch WHERE gameOwnAch.gameOwnID = game_own_ach_id);
-    RETURN "% of % achievements (% points)", user_achievements, total_achievements, total_value;
+    total_value := COUNT(value) FROM "gameAch" WHERE achID IN (SELECT achID from "gameOwnAch" WHERE "gameOwnAch".gameOwn = game_own_ach_id);
+    RETURN format('%s of %s achievements (%s points)', user_achievements, total_achievements, total_value);
 END;
 $$ LANGUAGE plpgsql;
