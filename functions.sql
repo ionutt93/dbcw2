@@ -202,7 +202,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- Question 16
+-- Question 18
 CREATE OR REPLACE FUNCTION common_games_users(
     IN username character varying) -- my username
 RETURNS TABLE(no int, userid int) AS $$
@@ -242,5 +242,23 @@ BEGIN
             GROUP BY g2.userid2
             ORDER BY count DESC)) AS q
         GROUP BY q.userid;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION suggest_friend(
+    IN username character varying) -- my username
+RETURNS TABLE(usernamer character varying,
+    common_friends_no int, 
+    common_games_no int) AS $$
+BEGIN
+    RETURN QUERY SELECT u.username,sum(q.cf)::int,sum(q.cg)::int FROM (
+        SELECT 0 AS cf,no AS cg,userid FROM common_games_users(suggest_friend.username)
+        UNION
+        SELECT no AS cf,0 AS cg,userid FROM common_friends_users(suggest_friend.username)
+    ) AS q
+    JOIN "user" u ON u.id = q.userid 
+    GROUP BY u.username
+    ORDER BY (sum(q.cf)+sum(q.cg)) DESC
+    LIMIT 1;
 END;
 $$ LANGUAGE plpgsql;
