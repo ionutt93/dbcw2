@@ -178,3 +178,25 @@ BEGIN
         WHERE u.username = ANY(my_friends(friend_games.musername));
 END;
 $$ LANGUAGE plpgsql;
+
+-- Question 16
+CREATE OR REPLACE FUNCTION mutual_friends(
+    IN username1 character varying, -- my username
+    IN username2 character varying)
+RETURNS int AS $$
+DECLARE
+    no int;
+BEGIN
+    SELECT array_length( 
+        array(
+            SELECT unnest(my_friends(username1)) 
+            INTERSECT 
+            SELECT unnest(my_friends(username2))
+    ),1) INTO no;
+    IF no >= 0 THEN
+        RETURN no;
+    ELSE
+        RETURN 0;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
