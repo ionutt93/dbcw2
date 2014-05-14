@@ -54,4 +54,30 @@ SELECT game.name FROM game, gameOwn WHERE
 	ORDER BY COUNT(gameOwn.lastPlayed) DESC
 LIMIT 10
 
+-- 10
+
+-- 11
+
+-- 12
+
+-- 13
+
+-- 14.Show a status screen for the player showing their username, status line, number of games owned, total number of achievement points and total number of friends.
+SELECT "user".username, "user".status, COUNT(gameOwn.gameId) AS noGamesOwn, SUM("gameAch".value) as noAchPoints, COUNT(friend.userId1) as noFriends FROM "user", "gameAch", gameOwn, "gameOwnAch",friend WHERE
+	"user".id = 10 AND
+	gameOwn.userId = "user".id AND
+	"gameOwnAch".gameOwn = gameOwn.id AND
+	"gameOwnAch".achId = "gameAch".achId AND
+	friend.userId1 = "user".id
+GROUP BY "user".username, "user".status;
+
+
+
+
+
+
+
+
+
+
 
