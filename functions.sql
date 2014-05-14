@@ -82,6 +82,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+-- Question 11
 CREATE OR REPLACE FUNCTION me_or_game_friends(
     IN username character varying, -- my username
     IN gamename character varying) -- game name
@@ -124,3 +126,55 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Question 12
+CREATE OR REPLACE FUNCTION my_friends(
+    IN username character varying) -- my username
+RETURNS character varying[] AS $$
+DECLARE
+    friends text[];
+BEGIN
+    friends := array(
+    SELECT 
+        (array_remove(ARRAY[u1.username,u2.username],my_friends.username))[1]
+    FROM friend
+        JOIN "user" u1 ON u1.id = friend.userid1
+        JOIN "user" u2 ON u2.id = friend.userid2
+        WHERE my_friends.username IN (u1.username,u2.username));
+    RETURN friends;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION last_played(
+    IN username character varying) -- my username
+RETURNS character varying AS $$
+DECLARE
+    games character varying[];
+BEGIN
+    games := array(SELECT game.name FROM gameOwn
+        JOIN game ON game.id = gameOwn.gameid
+        JOIN "user" u ON u.id = gameOwn.userid
+        ORDER BY lastplayed DESC
+        LIMIT 1);
+    IF array_length(games,1) = 0 THEN
+        RETURN '';
+    ELSE
+        RETURN games[1];
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION friend_games(
+    IN musername character varying) -- my username
+RETURNS TABLE(fusername character varying,
+    floggedin boolean,
+    flastlogin timestamp with time zone,
+    flastplayed character varying) AS $$
+BEGIN
+    RETURN QUERY SELECT username,
+        loggedin,
+        (CASE loggedin WHEN TRUE THEN NULL ELSE lastlogin END),
+        (CASE loggedin WHEN TRUE THEN NULL ELSE last_played(u.username) END) 
+        FROM "user" AS u 
+        WHERE u.username = ANY(my_friends(friend_games.musername));
+END;
+$$ LANGUAGE plpgsql;
