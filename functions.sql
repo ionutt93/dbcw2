@@ -195,7 +195,7 @@ BEGIN
                 game.name, 
                 ach.title,
                 "gameAch".value,
-                (CASE "gameOwnAch".dateAchieved != NULL WHEN TRUE THEN "gameAch".descrAfter ELSE "gameAch".descrBefore)
+                (CASE "gameOwnAch".dateAchieved != NULL WHEN TRUE THEN "gameAch".descrAfter ELSE "gameAch".descrBefore END),
                 "gameOwnAch".dateAchieved
         FROM "user", game, "gameOwnAch", gameOwn, ach, "gameAch"
         WHERE "user".username = my_username AND
@@ -206,9 +206,11 @@ BEGIN
               "gameOwnAch".achId = ach.id AND
               "gameAch".achId = ach.id AND
               game.id = "gameAch".gameId AND
-              "gameAch".show = true;
+              "gameAch".show = true
+        ORDER BY "gameOwnAch".dateAchieved;
 END
 $$ LANGUAGE plpgsql
+
 
 
 
