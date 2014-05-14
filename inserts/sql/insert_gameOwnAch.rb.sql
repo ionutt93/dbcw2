@@ -1,6 +1,6 @@
 ﻿INSERT INTO "gameOwnAch" 
 (gameOwn, achId, dateAchieved) VALUES 
-('1','10','2012-08-20'::date), 
+('1','1','2012-08-20'::date), 
 ('2','6','2013-05-03'::date), 
 ('3','5','2013-08-13'::date), 
 ('4','6','2011-10-09'::date), 

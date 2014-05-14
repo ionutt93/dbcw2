@@ -136,10 +136,10 @@ DECLARE
     user_id int;
     game_own_ach_id int;
     total_value int;
-
 BEGIN
     -- count how many achievements a given game has
-    SELECT count(ID) INTO total_achievements FROM "gameAch" WHERE "gameAch".ID=gameid_f;
+    SELECT count(ID) INTO total_achievements FROM "gameAch" WHERE "gameAch".gameID=gameid_f;
+    RAISE NOTICE '(%)',total_achievements;
     -- find user ID given username
     SELECT ID INTO user_id FROM "user" WHERE "user".username=username_f;
     -- select id from gameOwn
