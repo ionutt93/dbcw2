@@ -139,7 +139,6 @@ DECLARE
 BEGIN
     -- count how many achievements a given game has
     SELECT count(ID) INTO total_achievements FROM "gameAch" WHERE "gameAch".gameID=gameid_f;
-    RAISE NOTICE '(%)',total_achievements;
     -- find user ID given username
     SELECT ID INTO user_id FROM "user" WHERE "user".username=username_f;
     -- select id from gameOwn
@@ -151,3 +150,64 @@ BEGIN
     RETURN format('%s of %s achievements (%s points)', user_achievements, total_achievements, total_value);
 END;
 $$ LANGUAGE plpgsql;
+
+-- Question 16
+DROP FUNCTION common_games(character varying,character varying);
+CREATE OR REPLACE FUNCTION common_games(
+    IN user1 character varying, --username 1st user
+    IN user2 character varying) --username 2nd user
+RETURNS TABLE(game_name character varying, no_achievements1 int, no_achievements2 int) AS $$
+DECLARE
+    userid1_f int;
+    userid2_f int;
+    total int;
+BEGIN
+    -- get id for user1 & user2
+    SELECT INTO userid1_f ID FROM "user" WHERE username = user1;
+    SELECT INTO userid2_f ID FROM "user" WHERE username = user2;
+    
+    -- throw exception is users are not friends
+    --IF (SELECT status FROM friend WHERE userId1 = userid1_f AND userId2 = userid2_f) != 'accepted' THEN
+    --    RAISE EXCEPTION 'Users are not friends.';
+    --END IF;
+
+    --temporary tables
+    DROP TABLE IF EXISTS game_first, game_second, common;
+    CREATE TEMPORARY TABLE game_first(
+        game_id int,
+        achievement int
+    );
+    CREATE TEMPORARY TABLE game_second(
+        game_id int,
+        achievement int
+    );
+    CREATE TEMPORARY TABLE common(
+        game_id int,
+        game_name varchar(255),
+        user_a_ach int DEFAULT NULL,
+        user_b_ach int DEFAULT NULL
+    );
+
+    --game ids for first user
+    INSERT INTO game_first (game_id) SELECT gameID FROM gameOwn WHERE userID = userid1_f;
+    --game ids for second user
+    INSERT INTO game_second(game_id) SELECT gameID FROM gameOwn WHERE userID = userid2_f;
+    
+    --common games id
+    INSERT INTO common(game_id) SELECT game_first.game_id FROM game_first INNER JOIN game_second ON game_first.game_id = game_second.game_id;
+
+    --games only first user owns
+    INSERT INTO common(game_id) (SELECT game_first.game_id FROM game_first EXCEPT SELECT common.game_id FROM common);
+    --games only second user owns
+    INSERT INTO common(game_id) (SELECT game_second.game_id FROM game_second EXCEPT SELECT common.game_id FROM common);
+
+    -- get game names
+    UPDATE common SET game_name = (SELECT game.name FROM game WHERE common.game_id = game.ID);
+
+    --calculate achievement points for common games for each user
+    UPDATE common SET user_a_ach = (SELECT COUNT(value) FROM "gameAch" WHERE achID IN (SELECT achID from "gameOwnAch" WHERE "gameOwnAch".gameOwn IN (SELECT ID FROM gameOwn WHERE userID = userid1_f AND gameOwn.gameID = common.game_id)));
+    UPDATE common SET user_b_ach = (SELECT COUNT(value) FROM "gameAch" WHERE achID IN (SELECT achID from "gameOwnAch" WHERE "gameOwnAch".gameOwn IN (SELECT ID FROM gameOwn WHERE userID = userid2_f AND gameOwn.gameID = common.game_id)));
+
+    RETURN QUERY (SELECT common.game_name, common.user_a_ach, common.user_b_ach FROM common);
+END;
+$$ LANGUAGE plpgsql; 
