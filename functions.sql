@@ -82,6 +82,8 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+-- Question 11
 CREATE OR REPLACE FUNCTION me_or_game_friends(
     IN username character varying, -- my username
     IN gamename character varying) -- game name
@@ -124,8 +126,27 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+-- Question 12
+CREATE OR REPLACE FUNCTION my_friends(
+    IN username character varying) -- my username
+RETURNS character varying[] AS $$
+DECLARE
+    friends text[];
+BEGIN
+    friends := array(
+    SELECT 
+        (array_remove(ARRAY[u1.username,u2.username],my_friends.username))[1]
+    FROM friend
+        JOIN "user" u1 ON u1.id = friend.userid1
+        JOIN "user" u2 ON u2.id = friend.userid2
+        WHERE my_friends.username IN (u1.username,u2.username));
+    RETURN friends;
+END;
+$$ LANGUAGE plpgsql;
+
 -- Question 13
-DROP FUNCTION show_achievements(character varying,integer);
+DROP FUNCTION IF EXISTS show_achievements(character varying,integer);
 CREATE OR REPLACE FUNCTION show_achievements(
     IN username_f character varying, --username
     IN gameid_f int) --game name
@@ -151,3 +172,124 @@ BEGIN
     RETURN format('%s of %s achievements (%s points)', user_achievements, total_achievements, total_value);
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION last_played(
+    IN username character varying) -- my username
+RETURNS character varying AS $$
+DECLARE
+    games character varying[];
+BEGIN
+    games := array(SELECT game.name FROM gameOwn
+        JOIN game ON game.id = gameOwn.gameid
+        JOIN "user" u ON u.id = gameOwn.userid
+        ORDER BY lastplayed DESC
+        LIMIT 1);
+    IF array_length(games,1) = 0 THEN
+        RETURN '';
+    ELSE
+        RETURN games[1];
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION friend_games(
+    IN musername character varying) -- my username
+RETURNS TABLE(fusername character varying,
+    floggedin boolean,
+    flastlogin timestamp with time zone,
+    flastplayed character varying) AS $$
+BEGIN
+    RETURN QUERY SELECT username,
+        loggedin,
+        (CASE loggedin WHEN TRUE THEN NULL ELSE lastlogin END),
+        (CASE loggedin WHEN TRUE THEN NULL ELSE last_played(u.username) END) 
+        FROM "user" AS u 
+        WHERE u.username = ANY(my_friends(friend_games.musername));
+END;
+$$ LANGUAGE plpgsql;
+
+-- THE FOLLOWING FUNCTION IS NO LONGER NEEDED
+-- BUT MAY BE USEFUL IN THE FUTURE
+CREATE OR REPLACE FUNCTION mutual_friends(
+    IN username1 character varying, -- my username
+    IN username2 character varying)
+RETURNS int AS $$
+DECLARE
+    no int;
+BEGIN
+    SELECT array_length( 
+        array(
+            SELECT unnest(my_friends(username1)) 
+            INTERSECT 
+            SELECT unnest(my_friends(username2))
+    ),1) INTO no;
+    IF no >= 0 THEN
+        RETURN no;
+    ELSE
+        RETURN 0;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Question 18
+CREATE OR REPLACE FUNCTION common_games_users(
+    IN username character varying) -- my username
+RETURNS TABLE(no int, userid int) AS $$
+DECLARE
+    myuserid int;
+BEGIN
+    SELECT id INTO myuserid FROM "user" AS u WHERE u.username = common_games_users.username;
+    RETURN QUERY SELECT count(g2.userid)::int AS count,
+        g2.userid AS userid 
+        FROM gameown AS g1,gameown AS g2 
+        WHERE g1.gameid = g2.gameid 
+        GROUP BY g2.userid,g1.userid 
+        HAVING g1.userid = myuserid AND g2.userid != myuserid
+        ORDER BY count DESC;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION common_friends_users(
+    IN username character varying) -- my username
+RETURNS TABLE(no int, userid int) AS $$
+DECLARE
+    myuserid int;
+    added_friends int[];
+BEGIN
+    SELECT id INTO myuserid FROM "user" AS u WHERE u.username = common_friends_users.username;
+    SELECT array_agg(userid2) INTO added_friends FROM friend WHERE userid1 = myuserid;
+    RETURN QUERY 
+        SELECT sum(q.count)::int,q.userid::int FROM (
+            (SELECT count(g2.userid1)::int,g2.userid1 AS userid FROM friend AS g1,friend AS g2 
+            WHERE g1.userid2 = g2.userid2 
+            GROUP BY g2.userid1,g1.userid1 
+            HAVING g1.userid1 = myuserid AND g2.userid1 != myuserid
+            ORDER BY count DESC)
+            UNION
+            (SELECT count(g2.userid2)::int,g2.userid2 AS userid FROM friend AS g1,friend AS g2 
+            WHERE g1.userid2 = g2.userid1 AND g2.userid1 = any(added_friends)
+            GROUP BY g2.userid2
+            ORDER BY count DESC)) AS q
+        GROUP BY q.userid;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION suggest_friend(
+    IN username character varying) -- my username
+RETURNS TABLE(usernamer character varying,
+    common_friends_no int, 
+    common_games_no int) AS $$
+BEGIN
+    RETURN QUERY SELECT u.username,sum(q.cf)::int,sum(q.cg)::int FROM (
+        SELECT 0 AS cf,no AS cg,userid FROM common_games_users(suggest_friend.username)
+        UNION
+        SELECT no AS cf,0 AS cg,userid FROM common_friends_users(suggest_friend.username)
+    ) AS q
+    JOIN "user" u ON u.id = q.userid 
+    GROUP BY u.username
+    ORDER BY (sum(q.cf)+sum(q.cg)) DESC
+    LIMIT 1;
+END;
+$$ LANGUAGE plpgsql;
+
+
