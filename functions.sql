@@ -293,3 +293,32 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+CREATE OR REPLACE FUNCTION suggest_game(
+    IN username character varying) -- my username
+RETURNS character varying AS $$
+DECLARE
+    friends text[];
+    myuid int;
+    gid int;
+    mygameids int[];
+    gamename character varying;
+BEGIN
+    SELECT INTO myuid id FROM "user" AS u WHERE u.username = suggest_game.username;
+    IF myuid IS NULL THEN
+        RAISE EXCEPTION 'User not found';
+    END IF;
+    SELECT INTO mygameids array_agg(gameOwn.gameid) FROM gameOwn WHERE gameOwn.userid = myuid;
+    SELECT game.name INTO gamename
+        FROM friend
+        JOIN gameOwn ON gameOwn.userid = 
+            (array_remove(array[friend.userid1,friend.userid2],myuid))[1]
+            AND gameOwn.userid != myuid
+        JOIN game ON game.id = gameOwn.gameid
+        WHERE myuid IN (friend.userid1,friend.userid2) AND gameOwn.gameid != all(mygameids)
+        GROUP BY game.name ORDER BY count(game.name) DESC LIMIT 1;
+    IF gamename IS NULL THEN
+        RAISE EXCEPTION 'Not enough friends or they all own the same games';
+    END IF;
+    RETURN gamename;
+END;
+$$ LANGUAGE plpgsql;
