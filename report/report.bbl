@@ -1,9 +1,26 @@
 \begin{thebibliography}{1}
 
+\bibitem{link1}
+\url{http://www.postgresql.org/about}.
+
+\bibitem{link2}
+\url{http://www.tutorialspoint.com/postgresql/postgresql_data_types.htm}.
+
+\bibitem{link3}
+\url{https://github.com/stympy/faker}.
+
+\bibitem{link4}
+\url{http://en.wikipedia.org/wiki/Game_Center}.
+
+\bibitem{link5}
+\url{http://www.postgresql.org/docs}.
+
+\bibitem{link6}
+\url{http://www.tutorialspoint.com/postgresql}.
+
 \bibitem{db}
 Carolyn E.~Begg Thomas M.~Connolly.
-\newblock {\em Database Systems: A Practical Approach to Design,
-  Implementation, and Management}.
-\newblock 2005.
+\newblock Database systems: A practical approach to design, implementation and
+  management, 2005.
 
 \end{thebibliography}

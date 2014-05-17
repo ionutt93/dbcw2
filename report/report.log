@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.5.15)  17 MAY 2014 12:45
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.5.15)  17 MAY 2014 16:17
 entering extended mode
-**report.tex
-(C:\Users\Andra\Desktop\report\report.tex
+**C:/Users/Andra/Desktop/report/report.tex
+(C:/Users/Andra/Desktop/report/report.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
 abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
@@ -118,9 +118,25 @@ Package: listings 2014/03/04 1.5c (Carsten Heinz)
 ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\courier.sty"
 Package: courier 2005/04/12 PSNFSS-v9.2a (WaS) 
 )
-("C:\Program Files\MiKTeX 2.9\tex\latex\lipsum\lipsum.sty"
-Package: lipsum 2011/04/14 v1.2 150 paragraphs of Lorem Ipsum dummy text
-\c@lips@count=\count96
+("C:\Program Files\MiKTeX 2.9\tex\latex\enumitem\enumitem.sty"
+Package: enumitem 2011/09/28 v3.5.2 Customized lists
+\labelindent=\skip52
+\enit@outerparindent=\dimen109
+\enit@toks=\toks17
+\enit@inbox=\box28
+\enitdp@description=\count96
+)
+("C:\Program Files\MiKTeX 2.9\tex\latex\titlesec\titlesec.sty"
+Package: titlesec 2011/12/15 v2.10.0 Sectioning titles
+\ttl@box=\box29
+\beforetitleunit=\skip53
+\aftertitleunit=\skip54
+\ttl@plus=\dimen110
+\ttl@minus=\dimen111
+\ttl@toksa=\toks18
+\titlewidth=\dimen112
+\titlewidthlast=\dimen113
+\titlewidthfirst=\dimen114
 )
 ("C:\Program Files\MiKTeX 2.9\tex\latex\url\url.sty"
 \Urlmuskip=\muskip10
@@ -138,112 +154,281 @@ Package: etex 1998/03/26 v2.0 eTeX basic definition package (PEB)
 ("C:\Program Files\MiKTeX 2.9\tex\latex\listings\lstlang1.sty"
 File: lstlang1.sty 2014/03/04 1.5c listings language file
 )
+("C:\Program Files\MiKTeX 2.9\tex\latex\listings\lstlang2.sty"
+File: lstlang2.sty 2014/03/04 1.5c listings language file
+)
 \c@homeworkProblemCounter=\count99
 
 (C:\Users\Andra\Desktop\report\report.aux)
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 165.
-LaTeX Font Info:    ... okay on input line 165.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 165.
-LaTeX Font Info:    ... okay on input line 165.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 165.
-LaTeX Font Info:    ... okay on input line 165.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 165.
-LaTeX Font Info:    ... okay on input line 165.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 165.
-LaTeX Font Info:    ... okay on input line 165.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 165.
-LaTeX Font Info:    ... okay on input line 165.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 123.
+LaTeX Font Info:    ... okay on input line 123.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 123.
+LaTeX Font Info:    ... okay on input line 123.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 123.
+LaTeX Font Info:    ... okay on input line 123.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 123.
+LaTeX Font Info:    ... okay on input line 123.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 123.
+LaTeX Font Info:    ... okay on input line 123.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 123.
+LaTeX Font Info:    ... okay on input line 123.
 Package lastpage Info: Please have a look at the pageslts package at
 (lastpage)             http://www.ctan.org/tex-archive/ 
 (lastpage)             macros/latex/contrib/pageslts/ 
 (lastpage)             or
 (lastpage)             http://www.ctan.org/tex-archive/ 
 (lastpage)             install/macros/latex/contrib/pageslts.tds.zip
-(lastpage)             ! on input line 165.
+(lastpage)             ! on input line 123.
 
 ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count100
-\scratchdimen=\dimen109
-\scratchbox=\box28
+\scratchdimen=\dimen115
+\scratchbox=\box30
 \nofMPsegments=\count101
 \nofMParguments=\count102
-\everyMPshowfont=\toks17
+\everyMPshowfont=\toks19
 \MPscratchCnt=\count103
-\MPscratchDim=\dimen110
+\MPscratchDim=\dimen116
 \MPnumerator=\count104
 \makeMPintoPDFobject=\count105
-\everyMPtoPDFconversion=\toks18
+\everyMPtoPDFconversion=\toks20
 )
 \c@lstlisting=\count106
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 167.
+(Font)              <12> on input line 125.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 167.
+(Font)              <8> on input line 125.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 167.
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 167.
+(Font)              <6> on input line 125.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 125.
 
  ("C:\Program Files\MiKTeX 2.9\tex\latex\psnfss\ot1pcr.fd"
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
+Underfull \hbox (badness 10000) in paragraph at lines 151--152
 
-LaTeX Warning: Citation `link1' undefined on input line 264.
+ []
+
+[1
+
+{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 161.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 161.
+
+Underfull \hbox (badness 10000) in paragraph at lines 161--162
+
+ []
 
 
-LaTeX Warning: Citation `link2' undefined on input line 264.
+Underfull \hbox (badness 10000) in paragraph at lines 163--164
+
+ []
 
 
-LaTeX Warning: Citation `lilnk3' undefined on input line 264.
+Underfull \hbox (badness 10000) in paragraph at lines 165--166
 
-(C:\Users\Andra\Desktop\report\report.bbl [1
+ []
 
-{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}]) [2] <er.jpg, id=16, 877.
-2775pt x 630.355pt>
+
+Overfull \hbox (15.20062pt too wide) in paragraph at lines 167--168
+\OT1/pcr/m/n/10 send[]friend[]request(username1, username2, email) \OT1/cmr/m/n
+/10 and \OT1/pcr/m/n/10 friend[]request[]action(userame1,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 167--168
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 169--170
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 171--172
+
+ []
+
+[2]
+Underfull \hbox (badness 10000) in paragraph at lines 173--174
+
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 177.
+
+("C:\Program Files\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 177.
+
+Underfull \hbox (badness 10000) in paragraph at lines 180--181
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 182--183
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 184--185
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 187--188
+
+ []
+
+(C:\Users\Andra\Desktop\report\insert_category.rb) [3]
+Underfull \hbox (badness 10000) in paragraph at lines 204--205
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 210--211
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 216--217
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 222--223
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 228--229
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 234--235
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 240--241
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 246--247
+
+ []
+
+Missing character: There is no â in font cmr10!
+Missing character: There is no € in font cmr10!
+Missing character: There is no “ in font cmr10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 252--253
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 258--259
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 264--265
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 270--271
+
+ []
+
+[4]
+Underfull \hbox (badness 10000) in paragraph at lines 276--277
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 282--283
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 288--289
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 294--295
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--301
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 306--307
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 312--313
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 318--319
+
+ []
+
+(C:\Users\Andra\Desktop\report\report.bbl [5]) [6]
+<er.jpg, id=32, 877.2775pt x 630.355pt>
 File: er.jpg Graphic file (type jpg)
  <use er.jpg>
-Package pdftex.def Info: er.jpg used on input line 293.
-(pdftex.def)             Requested size: 352.31624pt x 253.15707pt.
+Package pdftex.def Info: er.jpg used on input line 347.
+(pdftex.def)             Requested size: 375.80542pt x 270.0278pt.
 
-<types.jpg, id=17, 383.93437pt x 395.22656pt>
+<types.jpg, id=33, 462.97969pt x 362.10281pt>
 File: types.jpg Graphic file (type jpg)
  <use types.jpg>
-Package pdftex.def Info: types.jpg used on input line 298.
-(pdftex.def)             Requested size: 314.73497pt x 324.00948pt.
- [3 <C:/Users/Andra/Desktop/report/er.jpg> <C:/Users/Andra/Desktop/report/types
+Package pdftex.def Info: types.jpg used on input line 352.
+(pdftex.def)             Requested size: 375.80542pt x 293.92601pt.
+ [7 <C:/Users/Andra/Desktop/report/er.jpg> <C:/Users/Andra/Desktop/report/types
 .jpg>]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 303.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 303.
-
 
 AED: lastpage setting LastPage
-[4] (C:\Users\Andra\Desktop\report\report.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+[8] (C:\Users\Andra\Desktop\report\report.aux) ) 
 Here is how much of TeX's memory you used:
- 3506 strings out of 493921
- 48044 string characters out of 3147282
- 225520 words of memory out of 3000000
- 6771 multiletter control sequences out of 15000+200000
- 10330 words of font info for 36 fonts, out of 3000000 for 9000
+ 4018 strings out of 493921
+ 55799 string characters out of 3147282
+ 193084 words of memory out of 3000000
+ 7266 multiletter control sequences out of 15000+200000
+ 11719 words of font info for 41 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 27i,11n,43p,825b,281s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program File
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX
- 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fon
-ts/type1/public/amsfonts/cm/cmbx9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/
-public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/am
-sfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm
-/cmr9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsl10.pf
-b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Pr
-ogram Files/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb>
-Output written on report.pdf (4 pages, 359599 bytes).
+ 28i,11n,43p,929b,1101s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files/MiKTeX 2.9/fo
+nts/enc/dvips/fontname/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9
+.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><
+C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Progra
+m Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/M
+iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files/MiKTeX 2.9/
+fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmsl10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
+/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfont
+s/cm/cmti10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb
+>
+Output written on report.pdf (8 pages, 406533 bytes).
 PDF statistics:
- 54 PDF objects out of 1000 (max. 8388607)
+ 80 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

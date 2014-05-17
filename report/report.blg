@@ -1,6 +1,10 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: report.aux
 The style file: plain.bst
-Database file #1: references.bib
-Warning--I didn't find a database entry for "link"
-Warning--empty publisher in db
-(There were 2 warnings)
+Database file #1: report.bib
+Warning--to sort, need author or key in link1
+Warning--to sort, need author or key in link2
+Warning--to sort, need author or key in link3
+Warning--to sort, need author or key in link4
+Warning--to sort, need author or key in link5
+Warning--to sort, need author or key in link6
+(There were 6 warnings)
