@@ -59,6 +59,37 @@ CREATE TRIGGER check_score
 	FOR EACH ROW
 	EXECUTE PROCEDURE check_score_range();
 
+DROP TRIGGER IF EXISTS check_gameAch ON "gameAch";
+CREATE TRIGGER check_gameAch
+	BEFORE INSERT ON "gameAch"
+	FOR EACH ROW
+	EXECUTE PROCEDURE check_gameAch();
+
+CREATE OR REPLACE FUNCTION check_gameAch() RETURNS trigger AS $$
+DECLARE
+    n int;
+    totalsum int;
+
+    asum int;
+    cn int;
+BEGIN 
+    n := 100;
+    totalsum := 1000;
+    cn := count(id) FROM "gameAch" WHERE "gameAch".gameid = NEW.gameid;
+    asum := sum(value) FROM "gameAch" WHERE "gameAch".gameid = NEW.gameid;
+    IF cn >= n THEN
+        RAISE EXCEPTION 'A game cannot have more than % achievements', n;
+        RETURN NULL;
+    END IF;
+    IF asum >= totalsum THEN
+        RAISE EXCEPTION 'A game cannot have more than % total value from achievements', totalsum;
+        RETURN NULL;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+
 --Question 8
 -- Assume lock deletes the account
 CREATE OR REPLACE FUNCTION check_username_offensive() RETURNS trigger AS $$
