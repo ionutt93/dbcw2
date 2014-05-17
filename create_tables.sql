@@ -38,7 +38,7 @@ CREATE TABLE "gameAch" (
     id serial PRIMARY KEY,
     achId integer NOT NULL REFERENCES ach(id),
     gameId integer NOT NULL,
-    value integer NOT NULL,
+    value integer NOT NULL CHECK (value <= 100 AND value > 0),
     show boolean NOT NULL DEFAULT FALSE,
     descrBefore text,
     descrAfter text,

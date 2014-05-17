@@ -109,12 +109,9 @@ CREATE OR REPLACE FUNCTION friend_leaderboard(
 RETURNS TABLE(trank bigint, thighscore int, tusername character varying) AS $$
 DECLARE
     myuid int;
-    totalu int;
     friends character varying[];
 BEGIN 
     friends :=  me_or_game_friends(friend_leaderboard.username,friend_leaderboard.gamename);
-    SELECT INTO totalu count(highscore) FROM gameOwn JOIN game ON game.name = friend_leaderboard.gamename 
-        AND game.id = gameOwn.gameid;
     SELECT INTO myuid id FROM "user" AS u WHERE u.username = friend_leaderboard.username;
 
 
@@ -126,6 +123,20 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+
+CREATE OR REPLACE FUNCTION leaderboard(
+    IN gamename character varying) -- game name
+RETURNS TABLE(trank bigint, thighscore int, tusername character varying) AS $$
+DECLARE
+    myuid int;
+    friends character varying[];
+BEGIN 
+    RETURN QUERY SELECT row_number() OVER (ORDER BY highscore DESC) AS rank,
+        highscore,u.username FROM gameOwn
+    JOIN "user" u ON u.id = gameOwn.userid
+    JOIN game ON game.id = gameown.gameid AND game.name = leaderboard.gamename;
+END;
+$$ LANGUAGE plpgsql;
 
 -- Question 12
 CREATE OR REPLACE FUNCTION my_friends(
