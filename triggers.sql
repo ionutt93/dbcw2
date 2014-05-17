@@ -59,12 +59,6 @@ CREATE TRIGGER check_score
 	FOR EACH ROW
 	EXECUTE PROCEDURE check_score_range();
 
-DROP TRIGGER IF EXISTS check_gameAch ON "gameAch";
-CREATE TRIGGER check_gameAch
-	BEFORE INSERT ON "gameAch"
-	FOR EACH ROW
-	EXECUTE PROCEDURE check_gameAch();
-
 CREATE OR REPLACE FUNCTION check_gameAch() RETURNS trigger AS $$
 DECLARE
     n int;
@@ -88,6 +82,12 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS check_gameAch ON "gameAch";
+CREATE TRIGGER check_gameAch
+	BEFORE INSERT ON "gameAch"
+	FOR EACH ROW
+	EXECUTE PROCEDURE check_gameAch();
+
 
 
 --Question 8
