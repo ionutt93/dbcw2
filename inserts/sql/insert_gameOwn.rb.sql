@@ -31,7 +31,7 @@ INSERT INTO gameOwn
 (38,3,3,'et et voluptates dolore suscipit quis voluptas quaerat dolores excepturi voluptatibus consequatur minima impedit maiores quo sint rerum ut nihil','2013-05-28 00:58:59 BST' :: timestamp with time zone,97), 
 (39,3,1,'iusto a optio quos corporis iste id molestias incidunt officiis cupiditate commodi molestiae quis saepe dolorem voluptatibus in error reprehenderit','2010-12-16 23:54:37 BST' :: timestamp with time zone,50), 
 (40,4,3,'voluptatem ut qui sint aut voluptatem dolor ab quisquam quae ipsa deserunt rerum consectetur minima qui maiores quis odio eum','2010-08-27 13:44:55 BST' :: timestamp with time zone,79), 
-(41,4,4,'et quo aspernatur eos dicta inventore earum qui ipsum doloremque delectus molestiae animi sapiente commodi eos sunt reprehenderit fugiat enim','2012-02-08 05:20:22 BST' :: timestamp with time zone,107), 
+(11,4,4,'et quo aspernatur eos dicta inventore earum qui ipsum doloremque delectus molestiae animi sapiente commodi eos sunt reprehenderit fugiat enim','2012-02-08 05:20:22 BST' :: timestamp with time zone,107), 
 (42,4,4,'voluptatibus aspernatur ad itaque qui ut corrupti eum mollitia aut saepe ab sint aperiam molestiae qui culpa consequuntur totam amet','2012-08-16 01:06:32 BST' :: timestamp with time zone,117), 
 (43,4,4,'sit occaecati id explicabo hic qui dolorem adipisci non et iure porro quo ut doloremque tenetur vero assumenda molestiae nihil','2013-08-17 05:51:05 BST' :: timestamp with time zone,90), 
 (44,4,3,'ut nostrum et nulla aut voluptatibus est iste minus omnis aut sapiente aperiam voluptates enim neque odit quaerat voluptatem ipsam','2012-10-11 20:00:36 BST' :: timestamp with time zone,79), 
