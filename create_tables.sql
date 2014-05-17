@@ -45,6 +45,11 @@ CREATE TABLE "gameAch" (
     icon varchar(255)
 );
 
+
+DROP TYPE IF EXISTS ordering CASCADE;
+CREATE TYPE ordering AS ENUM ('asc','desc');
+DROP TYPE IF EXISTS game_currency CASCADE;
+CREATE TYPE game_currency AS ENUM ('int','time','money');
 -- Create table "game"
 CREATE TABLE game (
     id serial PRIMARY KEY,
@@ -58,7 +63,9 @@ CREATE TABLE game (
     img varchar(255),
     website varchar(255),
     minimum integer DEFAULT 0,
-    maximum integer
+    maximum integer,
+    sorting ordering DEFAULT 'asc' NOT NULL,
+    value_type game_currency DEFAULT 'int' NOT NULL
 );
 
 -- Create table gameOwn
@@ -96,4 +103,5 @@ CREATE TABLE "gameCat"(
     rank integer,
     UNIQUE (catId, gameId)
 );
+
 

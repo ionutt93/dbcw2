@@ -180,26 +180,24 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+DROP FUNCTION q15(character varying,character varying);
 CREATE OR REPLACE FUNCTION q15(
     IN my_username character varying,
     IN my_game character varying)
 RETURNS TABLE (
-    f_username character varying,
-    f_game_name character varying,
     f_ach_title character varying,
+    f_ach_value integer,
     f_description text,
     f_date_achieved timestamp with time zone) AS $$
 BEGIN
     RETURN QUERY
-        SELECT "user".username,
-                game.name, 
-                ach.title,
+        SELECT  ach.title,
                 "gameAch".value,
                 (CASE "gameOwnAch".dateAchieved != NULL WHEN TRUE THEN "gameAch".descrAfter ELSE "gameAch".descrBefore END),
                 "gameOwnAch".dateAchieved
         FROM "user", game, "gameOwnAch", gameOwn, ach, "gameAch"
-        WHERE "user".username = my_username AND
-             game.name = my_game AND 
+        WHERE "user".username = q15.my_username AND
+             game.name = q15.my_game AND 
              "user".id = gameOwn.userId AND
               game.id = gameOwn.gameId AND
               gameOwn.id = "gameOwnAch".gameOwn AND
