@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.5.15)  17 MAY 2014 16:17
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.5.15)  17 MAY 2014 16:30
 entering extended mode
-**C:/Users/Andra/Desktop/report/report.tex
-(C:/Users/Andra/Desktop/report/report.tex
+**C:/Users/Andra/Desktop/DBcw2/dbcw2/report/report.tex
+(C:/Users/Andra/Desktop/DBcw2/dbcw2/report/report.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
 abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
@@ -159,7 +159,7 @@ File: lstlang2.sty 2014/03/04 1.5c listings language file
 )
 \c@homeworkProblemCounter=\count99
 
-(C:\Users\Andra\Desktop\report\report.aux)
+(C:\Users\Andra\Desktop\DBcw2\dbcw2\report\report.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 123.
 LaTeX Font Info:    ... okay on input line 123.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 123.
@@ -285,7 +285,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 187--188
 
  []
 
-(C:\Users\Andra\Desktop\report\insert_category.rb) [3]
+(C:\Users\Andra\Desktop\DBcw2\dbcw2\report\insert_category.rb) [3]
 Underfull \hbox (badness 10000) in paragraph at lines 204--205
 
  []
@@ -388,44 +388,43 @@ Underfull \hbox (badness 10000) in paragraph at lines 318--319
 
  []
 
-(C:\Users\Andra\Desktop\report\report.bbl [5]) [6]
+(C:\Users\Andra\Desktop\DBcw2\dbcw2\report\report.bbl [5]) [6]
 <er.jpg, id=32, 877.2775pt x 630.355pt>
 File: er.jpg Graphic file (type jpg)
  <use er.jpg>
-Package pdftex.def Info: er.jpg used on input line 347.
+Package pdftex.def Info: er.jpg used on input line 349.
 (pdftex.def)             Requested size: 375.80542pt x 270.0278pt.
 
 <types.jpg, id=33, 462.97969pt x 362.10281pt>
 File: types.jpg Graphic file (type jpg)
  <use types.jpg>
-Package pdftex.def Info: types.jpg used on input line 352.
+Package pdftex.def Info: types.jpg used on input line 354.
 (pdftex.def)             Requested size: 375.80542pt x 293.92601pt.
- [7 <C:/Users/Andra/Desktop/report/er.jpg> <C:/Users/Andra/Desktop/report/types
-.jpg>]
-
+ [7 <C:/Users/Andra/Desktop/DBcw2/dbcw2/report/er.jpg> <C:/Users/Andra/Desktop/
+DBcw2/dbcw2/report/types.jpg>] 
 AED: lastpage setting LastPage
-[8] (C:\Users\Andra\Desktop\report\report.aux) ) 
+[8] (C:\Users\Andra\Desktop\DBcw2\dbcw2\report\report.aux) ) 
 Here is how much of TeX's memory you used:
  4018 strings out of 493921
- 55799 string characters out of 3147282
+ 55931 string characters out of 3147282
  193084 words of memory out of 3000000
  7266 multiletter control sequences out of 15000+200000
  11719 words of font info for 41 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 28i,11n,43p,929b,1101s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/MiKTeX 2.9/fo
-nts/enc/dvips/fontname/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/public/a
-msfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx9
-.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><
-C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Progra
-m Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/M
-iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files/MiKTeX 2.9/
-fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
-1/public/amsfonts/cm/cmsl10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfont
-s/cm/cmti10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb
->
+ 28i,11n,43p,941b,1101s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files/M
+iKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/ty
+pe1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/publ
+ic/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfo
+nts/cm/cmbx9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cm
+bxti10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pf
+b><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Pro
+gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files
+/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Program Files/MiKTeX 2.9/fonts/
+type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmti10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/courie
+r/ucrr8a.pfb>
 Output written on report.pdf (8 pages, 406533 bytes).
 PDF statistics:
  80 PDF objects out of 1000 (max. 8388607)
