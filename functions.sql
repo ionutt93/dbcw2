@@ -109,7 +109,6 @@ CREATE OR REPLACE FUNCTION friend_leaderboard(
 RETURNS TABLE(trank bigint, thighscore int, tusername character varying) AS $$
 DECLARE
     myuid int;
-    totalu int;
     friends character varying[];
 BEGIN 
     friends :=  me_or_game_friends(friend_leaderboard.username,friend_leaderboard.gamename);
@@ -130,7 +129,6 @@ CREATE OR REPLACE FUNCTION leaderboard(
 RETURNS TABLE(trank bigint, thighscore int, tusername character varying) AS $$
 DECLARE
     myuid int;
-    totalu int;
     friends character varying[];
 BEGIN 
     RETURN QUERY SELECT row_number() OVER (ORDER BY highscore DESC) AS rank,
