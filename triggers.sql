@@ -103,11 +103,11 @@ BEGIN
     cn := count(id) FROM gameAch WHERE gameAch.gameid = NEW.gameid;
     asum := sum(value) FROM gameAch WHERE gameAch.gameid = NEW.gameid;
     IF cn >= n THEN
-        RAISE EXCEPTION 'A game cannot have more than % achievements', n;
+        RAISE NOTICE 'A game cannot have more than % achievements', n;
         RETURN NULL;
     END IF;
     IF asum >= totalsum THEN
-        RAISE EXCEPTION 'A game cannot have more than % total value from achievements', totalsum;
+        RAISE NOTICE 'A game cannot have more than % total value from achievements', totalsum;
         RETURN NULL;
     END IF;
     RETURN NEW;
