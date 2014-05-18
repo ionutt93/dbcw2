@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.5.15)  18 MAY 2014 15:45
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9 64-bit) (preloaded format=pdflatex 2014.5.15)  18 MAY 2014 20:07
 entering extended mode
 **C:/Users/Andra/Desktop/DBcw2/dbcw2/report/report.tex
 (C:/Users/Andra/Desktop/DBcw2/dbcw2/report/report.tex
@@ -317,19 +317,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 207--209
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 253--255
+
+ []
+
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 261--267
+Underfull \hbox (badness 10000) in paragraph at lines 268--274
 
  []
 
 
-Overfull \hbox (10.24501pt too wide) in paragraph at lines 261--267
+Overfull \hbox (10.24501pt too wide) in paragraph at lines 268--274
 \OT1/pcr/m/n/10 SELECT category.name, game.name, gameCat.rank FROM category, ga
 meCat, game WHERE 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 301--303
+Underfull \hbox (badness 10000) in paragraph at lines 308--310
 
  []
 
@@ -338,72 +343,134 @@ Missing character: There is no â in font cmsl10!
 Missing character: There is no € in font cmsl10!
 Missing character: There is no “ in font cmsl10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 353--362
+Underfull \hbox (badness 10000) in paragraph at lines 360--369
 
  []
 
 
-Overfull \hbox (28.24501pt too wide) in paragraph at lines 353--362
+Underfull \hbox (badness 10000) in paragraph at lines 360--369
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 360--369
+
+ []
+
+
+Overfull \hbox (28.24501pt too wide) in paragraph at lines 360--369
 \OT1/pcr/m/n/10 SELECT game.name, COUNT(gameTime.playedOn::date) FROM game, gam
 eOwn, gameTime WHERE 
  []
 
 [6]
-Underfull \hbox (badness 10000) in paragraph at lines 410--415
+Underfull \hbox (badness 10000) in paragraph at lines 393--403
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 393--403
 
  []
 
 [7]
-Underfull \hbox (badness 10000) in paragraph at lines 420--423
+Underfull \hbox (badness 10000) in paragraph at lines 417--425
 
  []
 
 
-Overfull \hbox (0.35951pt too wide) in paragraph at lines 424--429
+Underfull \hbox (badness 10000) in paragraph at lines 417--425
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 453--455
+
+ []
+
+[8]
+Underfull \hbox (badness 10000) in paragraph at lines 473--478
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 483--486
+
+ []
+
+
+Overfull \hbox (0.35951pt too wide) in paragraph at lines 487--492
  [] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 437--439
+Underfull \hbox (badness 10000) in paragraph at lines 500--502
+
+ []
+
+[9]
+Underfull \hbox (badness 10000) in paragraph at lines 520--522
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 457--459
-
- []
-
-[8] [9]
-Underfull \hbox (badness 10000) in paragraph at lines 532--533
+Underfull \hbox (badness 10000) in paragraph at lines 552--562
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 534--535
+Underfull \hbox (badness 10000) in paragraph at lines 552--562
+
+ []
+
+[10]
+Underfull \hbox (badness 10000) in paragraph at lines 574--576
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 536--537
+Underfull \hbox (badness 10000) in paragraph at lines 604--605
 
  []
 
-(C:\Users\Andra\Desktop\DBcw2\dbcw2\report\report.bbl [10]) [11]
-<er.jpg, id=49, 966.61125pt x 690.58pt>
+[11]
+Overfull \hbox (4.24501pt too wide) in paragraph at lines 615--616
+\OT1/pcr/m/n/10 UPDATE gameOwn SET highScore = highScore + 10 WHERE userId = 99
+ AND gameId = 1; 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 639--640
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 641--642
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 643--644
+
+ []
+
+(C:\Users\Andra\Desktop\DBcw2\dbcw2\report\report.bbl [12])
+<er.jpg, id=52, 966.61125pt x 690.58pt>
 File: er.jpg Graphic file (type jpg)
  <use er.jpg>
-Package pdftex.def Info: er.jpg used on input line 567.
-(pdftex.def)             Requested size: 375.80542pt x 268.48212pt.
-
-<types.jpg, id=50, 566.115pt x 432.11438pt>
+Package pdftex.def Info: er.jpg used on input line 674.
+(pdftex.def)             Requested size: 422.77661pt x 302.0437pt.
+ [13 <C:/Users/Andra/Desktop/DBcw2/dbcw2/report/er.jpg>] <types.jpg, id=57, 566
+.115pt x 432.11438pt>
 File: types.jpg Graphic file (type jpg)
- <use types.jpg>
-Package pdftex.def Info: types.jpg used on input line 572.
-(pdftex.def)             Requested size: 408.68454pt x 311.9529pt.
- [12 <C:/Users/Andra/Desktop/DBcw2/dbcw2/report/er.jpg> <C:/Users/Andra/Desktop
-/DBcw2/dbcw2/report/types.jpg>] 
+
+<use types.jpg>
+Package pdftex.def Info: types.jpg used on input line 679.
+(pdftex.def)             Requested size: 446.2658pt x 340.64133pt.
+ 
 AED: lastpage setting LastPage
-[13] (C:\Users\Andra\Desktop\DBcw2\dbcw2\report\report.aux) ) 
+[14 <C:/Users/Andra/Desktop/DBcw2/dbcw2/report/types.jpg>]
+(C:\Users\Andra\Desktop\DBcw2\dbcw2\report\report.aux) ) 
 Here is how much of TeX's memory you used:
  4730 strings out of 493921
  73646 string characters out of 3147282
@@ -412,23 +479,22 @@ Here is how much of TeX's memory you used:
  11719 words of font info for 41 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  40i,11n,43p,1242b,1101s stack positions out of 5000i,500n,10000p,200000b,50000s
-{C:/Program Files/
-MiKTeX 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/t
-ype1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pub
-lic/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsf
-onts/cm/cmbx9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/c
-mbxti10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.p
-fb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Pr
-ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program File
-s/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2
-.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files/MiKTeX 2.9/fonts/t
-ype1/public/amsfonts/cm/cmsl10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pub
-lic/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsf
-onts/cm/cmti10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.
-pfb>
-Output written on report.pdf (13 pages, 510358 bytes).
+{C:/Program Files/MiKTe
+X 2.9/fonts/enc/dvips/fontname/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/
+public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmbx9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbxti
+10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C
+:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program
+ Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files/MiK
+TeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/
+public/amsfonts/cm/cmsl10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/a
+msfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
+cm/cmti10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/courier/ucrr8a.pfb>
+Output written on report.pdf (14 pages, 518742 bytes).
 PDF statistics:
- 100 PDF objects out of 1000 (max. 8388607)
+ 103 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

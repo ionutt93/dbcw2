@@ -142,7 +142,7 @@
 %----------------------------------------------------------------------------------------
 
 \begin{abstract}
-This report represents an outline of the Databases third coursework. The aim of this coursework is to design and implement, in a group of four, a database for an online multiplayer social gaming network similar to the Game Centre on iOS. \textbf{Section 1} includes a brief summary of our approach. In \textbf{Section 2} we mention what decisions and assumptions regarding the specification we have made. We then continue with detailing what the system we implemented can do (in \textbf{Section 3}), by going through the \texttt{SQL} statements requested by the client. \textbf{Section 4} discusses project management, while  \textbf{Section 5} approaches some future improvements.\textbf{Sections 6 and 7} include References and Appendices.
+This report represents an outline of the Databases third coursework. The aim of this coursework is to design and implement, in a group of four, a database for an online multiplayer social gaming network similar to the Game Centre on iOS. \textbf{Section 1} includes a brief summary of our approach. In \textbf{Section 2} we mention what decisions and assumptions regarding the specification we have made. We then continue with detailing what the system we implemented can do (in \textbf{Section 3}), by going through the \texttt{SQL} statements requested by the client. \textbf{Section 4} discusses project management, while  \textbf{Section 5} approaches some future improvements.\textbf{ Sections 6 and 7} include References and Appendices.
 
 \end{abstract}
 
@@ -250,7 +250,14 @@ However, we have done this by creating a trigger \texttt{check\_gameAch()} that 
 \begin{homeworkProblem}
 \par {\textsl {Given a user and a game, display the user's score, rank on that game's leaderboard (even if they are outside the top 10) and an indication of where they appear relative to the average e.g. "85000 points - 1788 (Top 20\%)" or "13000 points - 16364 (Bottom 40\%)".}}
 \vspace{5pt}
-\par {Here}
+\par {The user's highscore, rank and relative position in a particular game can be found using my\_game\_status \textsl{function}, which takes as parameter the user's username and game name and returns a status string.}\\\\
+\texttt{ SELECT * FROM my\_game\_status('murl', 'Goodwin, Windler and Morar');}
+\begin{center}
+    \begin{tabular}{| c |}\hline
+    \textbf{my\_game\_status} \\ \hline
+     110 points(int) - 4 (Top 27\%) \\  \hline
+    \end{tabular}
+\end{center}
 \vspace{5pt}
 \end{homeworkProblem}
 
@@ -350,7 +357,7 @@ ORDER BY category.name, gameCat.rank;}
 \begin{homeworkProblem}
 \par {\textsl {The client wants to add a 'Hot List' which shows the 10 games, which have been played most often in the past week – add the necessary fields, tables, queries, triggers and/or procedures to achieve this.}}
 \vspace{5pt}
-\par {In order to find the most played games, we required a table that would hold the game play times (when a game starts) for each game. Therefore, we created \texttt{gameTime}, which has the\textsl{gameOwnId} and the \textsl{playedOn} timestamp as fields. We then calculated the count of gameplay dates in the past week and this way, were able to make a 'Hot List' which shows the most played games in that specific week.}\\\\
+\par {In order to find the most played games, we required a table that would hold the game play times (when a game starts) for each game. Therefore, we created \texttt{gameTime}, which has the\textsl{gameOwnId} and the \textsl{playedOn} timestamp as fields. We then calculated the count of gameplay dates in the past week and this way, were able to make a 'Hot List' which shows the most played games in that specific week.}\\\\\\\\\
 \texttt{SELECT game.name, COUNT(gameTime.playedOn::date) FROM game, gameOwn, gameTime WHERE\\
    \-\ \-\ \-\ game.id = gameOwn.gameId AND\\
    \-\ \-\ \-\ gameTime.gameOwnId = gameOwn.id AND\\
@@ -383,7 +390,23 @@ LIMIT 10;}
 \begin{homeworkProblem}
 \par {\textsl {The client wants to allow users to send friend requests to other users using their username or email address. What additional fields/tables would you need to add to allow for this functionality? You will need to keep track of the request, the response (if any) and some way of keeping track of user friends lists. If possible, extend this system to allow users to send an invite to a friend to play a particular game.}}
 \vspace{5pt}
-\par {Here}
+\par {In order to support friend requests, we have created a new table \texttt{friend} that stores the IDs of the two users and their friendship status. We have split the task into two functions: one that sends the friend request to the second user (\texttt{send\_friend\_request}) and another that lets the second user respond to the friend request (\texttt{friend\_request\_action}). The first function checks if there already exists a friend request between the two users and if the usernames are valid (the users are in the database). If no error was encountered so far, then the function inserts the two users IDs into the \texttt{friend} table. The friend status is set by default to 'awaiting'. The second function updates the friend status in the \texttt{friend} table. It takes as input the usernames of the two users and an action of type friendStatus.}\\\\
+\texttt{DELETE FROM friend;\\
+    SELECT send\_friend\_request('dameon', 'sherwood', '');\\
+    SELECT send\_friend\_request('dameon', 'gilda', '');\\
+    SELECT send\_friend\_request('sasha.hartmann', 'dameon', '');\\
+    SELECT send\_friend\_request('yvonne', 'dameon', '');\\
+    SELECT friend\_request\_action('sherwood', 'dameon', 'accepted');\\
+    SELECT friend\_request\_action('dameon', 'yvonne', 'accepted');\\
+    SELECT friend\_request\_action('gilda', 'dameon', 'rejected');\\\\
+    SELECT unnest(my\_friends('dameon')) AS friends;}
+\begin{center}
+    \begin{tabular}{| c |}\hline
+    \textbf{friends} \\ \hline
+     sherwood \\  \hline
+     yvonne  \\  \hline
+    \end{tabular}
+\end{center}
 \vspace{5pt}
 \end{homeworkProblem}
 
@@ -391,7 +414,35 @@ LIMIT 10;}
 \begin{homeworkProblem}
 \par {\textsl {Given a user and a game, show a leaderboard which lists just the user and their friends.}}
 \vspace{5pt}
-\par {Here}
+\par {For this question we have used the \texttt{send\_friend\_reques} function mentioned in the previous question in order to make sure that we actually have enough entries to display. Afterwards, we user the function \texttt{friend\_leaderboard}, which is similar to the function that displays the leaderboard for a given user, in this case giving as parameters both the user and the game we are interested in.}\\\\
+\texttt{SELECT send\_friend\_request('gilda', 'billy', '');\\
+    SELECT send\_friend\_request('gilda', 'murl', '');\\
+    SELECT send\_friend\_request('gilda', 'linda', '');\\
+    SELECT send\_friend\_request('gilda', 'liana', '');\\
+    SELECT send\_friend\_request('gilda', 'arden', '');\\
+    UPDATE friend SET status = 'accepted'::friendStatus;\\\\
+    SELECT * FROM friend\_leaderboard('gilda', 'Goodwin, Windler and Morar');}
+\begin{center}
+    \begin{tabular}{| c | c | c | c| }
+    \hline
+    \textbf{rank} & \textbf{highscore} & \textbf{currency} & \textbf{username} \\ \hline
+         1 &  82 & int & liana \\ \hline
+         2 & 85 & int & linda \\ \hline
+         3 & 106 & int & gilda \\ \hline
+         4 & 110 & int & murl \\ \hline
+         5 & 122 & int & arden \\ \hline
+    \end{tabular}
+\end{center}
+
+\texttt{SELECT * FROM friend\_leaderboard('liana', 'Goodwin, Windler and Morar'); }
+\begin{center}
+    \begin{tabular}{| c | c | c | c| }
+    \hline
+    \textbf{rank} & \textbf{highscore} & \textbf{currency} & \textbf{username} \\ \hline
+         1 &  82 & int & liana \\ \hline
+         3 & 106 & int & gilda \\ \hline
+    \end{tabular}
+\end{center}
 \vspace{5pt}
 \end{homeworkProblem}
 
@@ -399,7 +450,19 @@ LIMIT 10;}
 \begin{homeworkProblem}
 \par {\textsl {List all of a user's friends and show whether they are currently logged on. If they are not logged on, show when they were last logged on and what they were playing.}}
 \vspace{5pt}
-\par {Here}
+\par {The function first returns a list with all the user's friends. For each friend it is then checked if it is logged on. If this is not the case, then it returns the last time they were logged on by getting the value from the table and the last game they played. In order to retrieve the last game that was played by a given user, we wrote a helper function \texttt{last\_played}, that checks all the games a given user owns and returns the one that was played most recently.}\\\\
+\texttt{ SELECT * FROM friend\_games('gilda');}
+\begin{center}
+    \begin{tabular}{| l | c | c | c| }
+    \hline
+    \textbf{fusername} & \textbf{floggedin} & \textbf{flastlogin} & \textbf{flastplayed} \\ \hline
+     billy & t & &  \\ \hline
+     arden & f & 2012-08-18 01:13:53+01 &  Kilback LLC \\ \hline
+     liana & f  & 2013-07-20 12:48:40+01 & Kilback LLC \\ \hline
+     linda & f  & 2012-11-25 07:55:08+00 & Kilback LLC \\ \hline
+     murl & t & &  \\ \hline
+    \end{tabular}
+\end{center}
 \vspace{5pt}
 \end{homeworkProblem}
 
@@ -424,7 +487,7 @@ In the end, we moved the queries into a \textsl{function} in order to allow the 
     \begin{tabular}{| l | c | c | c | c | }
     \hline
     \textbf{n\_username} & \textbf{n\_status} & \textbf{n\_games} & \textbf{n\_ach\_points} & \textbf{n\_friends}\\ \hline
-    yvonne & ut maiores quibusdam ducimus labore illum ... & 2 & 6410 &5 \\ \hline
+    yvonne & ut maiores quibusdam ducimus labore illum ... & 2 & 7692 & 6 \\ \hline
     \end{tabular}
 \end{center}
 \vspace{5pt}
@@ -471,6 +534,7 @@ In the end, we moved the queries into a \textsl{function} in order to allow the 
     Howe-Eichmann & 0 & 284\\ \hline
     \end{tabular}
 \end{center}
+\vspace{5pt}
 \end{homeworkProblem}
 
 % Question 17
@@ -485,15 +549,40 @@ In the end, we moved the queries into a \textsl{function} in order to allow the 
 \begin{homeworkProblem}
 \par {\textsl {Suggest another user as a friend, if they have a number of friends and/or games in common with the user. You should show the name of the potential friend and how many games/friends they have in common with the user.}}
 \vspace{5pt}
-\par {Here}
-\vspace{5pt}
+\par {To solve this question we wrote two helper functions. The first one returns a table with all the users that own the same games as the given user. The table is in descending order so that the user with the most games in common is on the first row of the table. The second function returns a table with the users that have friends in common with the given user. Again, the table is in descending order of number of friends they have in common. The main function calls both of these helper functions and does a join on the table such that the user with most games and most friends in common would be the first entry in the resulted table. The username, number of games in common and number of friends in common of that user is thus returned.}\\\\
+\texttt{SELECT send\_friend\_request('gilda','billy','');\\
+    SELECT send\_friend\_request('gilda','murl','');\\
+    SELECT send\_friend\_request('gilda','linda','');\\
+    SELECT send\_friend\_request('gilda','liana','');\\
+    SELECT send\_friend\_request('gilda','arden','');\\
+    SELECT send\_friend\_request('haylee','liana','');\\
+    SELECT send\_friend\_request('haylee','arden','');\\
+    UPDATE friend SET status = 'accepted'::friendStatus;\\\\
+    SELECT * FROM suggest\_friend('gilda');}
+\begin{center}
+    \begin{tabular}{| l | c | c |}\hline
+    \textbf{username} & \textbf{common\_firends\_no} & \textbf{common\_games\_no} \\ \hline
+     haylee & 2 & 4 \\  \hline
+    \end{tabular}
+\end{center}
 \end{homeworkProblem}
 
 % Question 19
 \begin{homeworkProblem}
 \par {\textsl {Automatically suggest a game, which a user might be interested in. Games should only be suggested if the user doesn't already own them. Suggestions could be made on the basis that other users who make similar ratings also rate this item highly (though you may use another recommendation metric if you prefer).}}
 \vspace{5pt}
-\par {Here}
+\par {We decided to suggest a new game based on the popularity of the game among the given user's friends. The function checks the list of games owned by all the given user's friends against the list of games owned by the user and returns the first game that the user does not already own. In case the user has no friends or they all own the same games, an error message will be displayed.}\\\\
+\texttt{ SELECT suggest\_game('gilda');}
+\begin{center}
+    \begin{tabular}{| c |}\hline
+    \textbf{suggest\_game} \\ \hline
+     Dietrich, Altenwerth and Bins \\  \hline
+    \end{tabular}
+\end{center}
+
+\texttt{DELETE FROM friend;\\
+SELECT suggest\_game('gilda');\\
+ERROR:  Not enough friends or they all own the same games}
 \vspace{5pt}
 \end{homeworkProblem}
 
@@ -512,7 +601,25 @@ In the end, we moved the queries into a \textsl{function} in order to allow the 
     4 & 1.4 \\  \hline
     \end{tabular}
 \end{center}
-\par {This ensures that players at the top of the leaderboard will find it harder to increase their score even further.}
+\par {This ensures that players at the top of the leaderboard will find it harder to increase their score even further.}\\
+
+-- clair has id = 99 and rank 1 with score 123 in game id 1\\
+\texttt{SELECT highScore FROM gameOwn WHERE userId = 99 AND gameId = 1;}
+\begin{center}
+    \begin{tabular}{| c |}\hline
+    \textbf{highScore} \\ \hline
+    123 \\  \hline
+    \end{tabular}
+\end{center}
+\texttt{UPDATE gameOwn SET highScore = highScore + 10 WHERE userId = 99 AND gameId = 1; \\
+SELECT highScore FROM gameOwn WHERE userId = 99 AND gameId = 1; } 
+\begin{center}
+    \begin{tabular}{| c |}\hline
+    \textbf{highScore} \\ \hline
+    127 \\  \hline
+    \end{tabular}
+\end{center}
+ We can therefore see that th score actually increased by 4 (40\% of 10).
 \end{homeworkProblem}
 
 %----------------------------------------------------------------------------------------
@@ -554,24 +661,25 @@ In addition to the lecture slides, we have used the following resources in order
 \nocite{link4, link5, link6, db}
 \bibliographystyle{plain}
 \bibliography{report}
+\vspace{15pt}
 
 %----------------------------------------------------------------------------------------
 %	Appendices
 %----------------------------------------------------------------------------------------
-\newpage
 \section{7 ~ Appendices}
 \appendix
 
 \chapter{\textbf{Appendix A: ER Diagram}}
 \begin{center}
-\includegraphics[width=0.80\columnwidth]{er} % Import image
+\includegraphics[width=0.90\columnwidth]{er} % Import image
 \end{center}
-
+\newpage
 \chapter{\textbf{Appendix B: Data Types}}
 \begin{center}
-\includegraphics[width=0.87\columnwidth]{types} % Import image
+\includegraphics[width=0.95\columnwidth]{types} % Import image
 \end{center}
 
+\vspace{40pt}
 \chapter{\textbf{Appendix C: Mark Allocation}}
 \begin{flushleft}
     \begin{tabular}{| l | c |}
