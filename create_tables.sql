@@ -45,6 +45,11 @@ CREATE TABLE "gameAch" (
     icon varchar(255)
 );
 
+
+DROP TYPE IF EXISTS ordering CASCADE;
+CREATE TYPE ordering AS ENUM ('asc','desc');
+DROP TYPE IF EXISTS game_currency CASCADE;
+CREATE TYPE game_currency AS ENUM ('int','time','money');
 -- Create table "game"
 CREATE TABLE game (
     id serial PRIMARY KEY,
@@ -58,7 +63,9 @@ CREATE TABLE game (
     img varchar(255),
     website varchar(255),
     minimum integer DEFAULT 0,
-    maximum integer
+    maximum integer,
+    sorting ordering DEFAULT 'asc' NOT NULL,
+    value_type game_currency DEFAULT 'int' NOT NULL
 );
 
 -- Create table gameOwn
@@ -69,9 +76,17 @@ CREATE TABLE gameOwn (
     rating integer CHECK (rating >= 0 AND rating <= 5),
     comment text,
     lastPlayed timestamp with time zone,
+    date_ach timestamp with time zone,
     highScore integer NOT NULL DEFAULT 0,
     receiveNotif boolean NOT NULL DEFAULT TRUE,
     rank integer
+);
+
+-- Create table which shows game play times
+CREATE TABLE "gameTime" (
+    id serial PRIMARY KEY,
+    gameOwnId integer REFERENCES gameOwn(id),
+    playedOn timestamp with time zone
 );
 
 -- Create table "gameOwnAch"
@@ -96,4 +111,5 @@ CREATE TABLE "gameCat"(
     rank integer,
     UNIQUE (catId, gameId)
 );
+
 

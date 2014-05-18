@@ -1,4 +1,16 @@
-﻿-- Question 4
+-- Question 1
+CREATE OR REPLACE FUNCTION q1(IN game_id INTEGER)
+RETURNS table( username character varying ) AS $$
+BEGIN
+    RETURN QUERY
+        SELECT "user".username FROM "user", game, gameOwn WHERE 
+            game.id = q1.game_id AND
+            game.id = gameOwn.gameId AND
+            gameOwn.userId = "user".id; 
+END
+$$ LANGUAGE plpgsql;
+
+-- Question 4
 CREATE OR REPLACE FUNCTION q4(IN username varchar(255), IN gamename character varying) 
 RETURNS table(op varchar(255)) AS $$ 
 DECLARE
@@ -28,6 +40,31 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Question 7
+CREATE OR REPLACE FUNCTION q7(IN param character varying)
+RETURNS TABLE (
+    f_game_name character varying,
+    f_user_name character varying,
+    f_highScore integer
+    ) AS $$
+BEGIN
+    RETURN QUERY 
+        SELECT game.name, username, "d_highScore" FROM
+            (SELECT game.id as "d_gameId", MAX(highScore) as "d_highScore"
+            FROM game, "user", gameOwn WHERE
+                game.id = gameOwn.gameId AND
+                "user".id = gameOwn.userId AND
+                (CASE q7.param  
+                    WHEN 'weekly' THEN date_ach::date >= (current_date - integer '7')
+                    WHEN 'daily'  THEN date_ach::date = current_date END)
+            GROUP BY game.id) as d_table, game, "user", gameOwn WHERE
+                game.id = "d_gameId" AND
+                gameId = game.id AND
+                userId = "user".id AND
+                highScore = "d_highScore"
+            ORDER BY highScore DESC;
+END
+$$ LANGUAGE plpgsql;
 
 -- Question 10
 CREATE OR REPLACE FUNCTION send_friend_request(
@@ -280,28 +317,36 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- THE FOLLOWING FUNCTION IS NO LONGER NEEDED
--- BUT MAY BE USEFUL IN THE FUTURE
-CREATE OR REPLACE FUNCTION mutual_friends(
-    IN username1 character varying, -- my username
-    IN username2 character varying)
-RETURNS int AS $$
-DECLARE
-    no int;
+DROP FUNCTION q15(character varying,character varying);
+CREATE OR REPLACE FUNCTION q15(
+    IN my_username character varying,
+    IN my_game character varying)
+RETURNS TABLE (
+    f_ach_title character varying,
+    f_ach_value integer,
+    f_description text,
+    f_date_achieved timestamp with time zone) AS $$
 BEGIN
-    SELECT array_length( 
-        array(
-            SELECT unnest(my_friends(username1)) 
-            INTERSECT 
-            SELECT unnest(my_friends(username2))
-    ),1) INTO no;
-    IF no >= 0 THEN
-        RETURN no;
-    ELSE
-        RETURN 0;
-    END IF;
-END;
-$$ LANGUAGE plpgsql;
+    RETURN QUERY
+        SELECT  ach.title,
+                "gameAch".value,
+                (CASE "gameOwnAch".dateAchieved != NULL WHEN TRUE THEN "gameAch".descrAfter ELSE "gameAch".descrBefore END),
+                "gameOwnAch".dateAchieved
+        FROM "user", game, "gameOwnAch", gameOwn, ach, "gameAch"
+        WHERE "user".username = q15.my_username AND
+             game.name = q15.my_game AND 
+             "user".id = gameOwn.userId AND
+              game.id = gameOwn.gameId AND
+              gameOwn.id = "gameOwnAch".gameOwn AND
+              "gameOwnAch".achId = ach.id AND
+              "gameAch".achId = ach.id AND
+              game.id = "gameAch".gameId AND
+              "gameAch".show = true
+        ORDER BY "gameOwnAch".dateAchieved;
+END
+$$ LANGUAGE plpgsql
+
+
 
 -- Question 18
 CREATE OR REPLACE FUNCTION common_games_users(
@@ -393,4 +438,3 @@ BEGIN
     RETURN gamename;
 END;
 $$ LANGUAGE plpgsql;
-
