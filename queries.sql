@@ -47,17 +47,12 @@ LIMIT 10;
 -- 13
 
 -- 14.Show a status screen for the player showing their username, status line, number of games owned, total number of achievement points and total number of friends.
-SELECT "user".username, "user".status, COUNT(gameOwn.gameId) AS "noGamesOwn", SUM("gameAch".value) as "noAchPoints", COUNT(DISTINCT(friend.userId2)) as "noFriends" FROM "user", "gameAch", gameOwn, "gameOwnAch",friend WHERE
-    "user".id = 11 AND
-    gameOwn.userId = "user".id AND
-    "gameOwnAch".gameOwn = gameOwn.id AND
-    "gameOwnAch".achId = "gameAch".achId AND
-    friend.userId1 = "user".id
-GROUP BY "user".username, "user".status;
+-- see functions 
+SELECT * FROM q14(11);
 
 -- 15.Given a user and a game, list the achievements for that game (apart from ones which have the hidden flag set and the user hasn’t earned). They should be listed with ones the player has earned listed first. For each achievement, list the title, points, description (which will vary depending on whether the player has earned that title or not) and when the achievement was earned.
 -- see functions
-
+SELECT * FROM q15(1, 13);
 
 
 
