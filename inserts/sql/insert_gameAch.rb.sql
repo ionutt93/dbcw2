@@ -1,4 +1,4 @@
-INSERT INTO "gameAch" 
+INSERT INTO gameAch
 (achID,gameID,value,show,descrBefore,descrAfter,icon) VALUES 
 ('20','1','39','TRUE','["Quod reiciendis nihil omnis dolor sed."]','["Provident soluta voluptatem."]','http://funk.net/virginie_mccullough'),
 ('27','2','25','FALSE','["Iste modi autem."]','["Nihil numquam ea et."]','http://howell.net/dylan'),

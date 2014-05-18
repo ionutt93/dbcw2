@@ -1,4 +1,4 @@
-INSERT INTO "gameOwnAch" 
+INSERT INTO gameOwnAch 
 (gameOwn, achId, dateAchieved) VALUES 
 ('1','7','2013-10-27'::date),
 ('1','30','2010-07-26'::date),

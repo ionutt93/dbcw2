@@ -207,15 +207,15 @@ DECLARE
     total_value int;
 BEGIN
     -- count how many achievements a given game has
-    SELECT count(ID) INTO total_achievements FROM "gameAch" WHERE "gameAch".gameID=gameid_f;
+    SELECT count(ID) INTO total_achievements FROM gameAch WHERE gameAch.gameID=gameid_f;
     -- find user ID given username
     SELECT ID INTO user_id FROM "user" WHERE "user".username=username_f;
     -- select id from gameOwn
     SELECT ID INTO game_own_ach_id FROM gameOwn WHERE userID = user_id AND gameOwn.gameID = gameid_f;
     -- count how many achievements the user has unlocked
-    SELECT COUNT(achID) INTO user_achievements from "gameOwnAch" WHERE "gameOwnAch".gameOwn = game_own_ach_id;
+    SELECT COUNT(achID) INTO user_achievements from gameOwnAch WHERE gameOwnAch.gameOwn = game_own_ach_id;
     -- count number of points the user has for this game
-    total_value := COUNT(value) FROM "gameAch" WHERE achID IN (SELECT achID from "gameOwnAch" WHERE "gameOwnAch".gameOwn = game_own_ach_id);
+    total_value := COUNT(value) FROM gameAch WHERE achID IN (SELECT achID from gameOwnAch WHERE gameOwnAch.gameOwn = game_own_ach_id);
     RETURN format('%s of %s achievements (%s points)', user_achievements, total_achievements, total_value);
 END;
 $$ LANGUAGE plpgsql;
@@ -275,8 +275,8 @@ BEGIN
     UPDATE common SET game_name = (SELECT game.name FROM game WHERE common.game_id = game.ID);
 
     --calculate achievement points for common games for each user
-    UPDATE common SET user_a_ach = (SELECT COUNT(value) FROM "gameAch" WHERE achID IN (SELECT achID from "gameOwnAch" WHERE "gameOwnAch".gameOwn IN (SELECT ID FROM gameOwn WHERE userID = userid1_f AND gameOwn.gameID = common.game_id)));
-    UPDATE common SET user_b_ach = (SELECT COUNT(value) FROM "gameAch" WHERE achID IN (SELECT achID from "gameOwnAch" WHERE "gameOwnAch".gameOwn IN (SELECT ID FROM gameOwn WHERE userID = userid2_f AND gameOwn.gameID = common.game_id)));
+    UPDATE common SET user_a_ach = (SELECT COUNT(value) FROM gameAch WHERE achID IN (SELECT achID from gameOwnAch WHERE gameOwnAch.gameOwn IN (SELECT ID FROM gameOwn WHERE userID = userid1_f AND gameOwn.gameID = common.game_id)));
+    UPDATE common SET user_b_ach = (SELECT COUNT(value) FROM gameAch WHERE achID IN (SELECT achID from gameOwnAch WHERE gameOwnAch.gameOwn IN (SELECT ID FROM gameOwn WHERE userID = userid2_f AND gameOwn.gameID = common.game_id)));
 
     RETURN QUERY (SELECT common.game_name, common.user_a_ach, common.user_b_ach FROM common);
 END;
@@ -317,7 +317,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-DROP FUNCTION q15(character varying,character varying);
+DROP FUNCTION IF EXISTS q15(character varying,character varying);
 CREATE OR REPLACE FUNCTION q15(
     IN my_username character varying,
     IN my_game character varying)
@@ -329,22 +329,22 @@ RETURNS TABLE (
 BEGIN
     RETURN QUERY
         SELECT  ach.title,
-                "gameAch".value,
-                (CASE "gameOwnAch".dateAchieved != NULL WHEN TRUE THEN "gameAch".descrAfter ELSE "gameAch".descrBefore END),
-                "gameOwnAch".dateAchieved
-        FROM "user", game, "gameOwnAch", gameOwn, ach, "gameAch"
+                gameAch.value,
+                (CASE gameOwnAch.dateAchieved != NULL WHEN TRUE THEN gameAch.descrAfter ELSE gameAch.descrBefore END),
+                gameOwnAch.dateAchieved
+        FROM "user", game, gameOwnAch, gameOwn, ach, gameAch
         WHERE "user".username = q15.my_username AND
              game.name = q15.my_game AND 
              "user".id = gameOwn.userId AND
               game.id = gameOwn.gameId AND
-              gameOwn.id = "gameOwnAch".gameOwn AND
-              "gameOwnAch".achId = ach.id AND
-              "gameAch".achId = ach.id AND
-              game.id = "gameAch".gameId AND
-              "gameAch".show = true
-        ORDER BY "gameOwnAch".dateAchieved;
+              gameOwn.id = gameOwnAch.gameOwn AND
+              gameOwnAch.achId = ach.id AND
+              gameAch.achId = ach.id AND
+              game.id = gameAch.gameId AND
+              gameAch.show = true
+        ORDER BY gameOwnAch.dateAchieved;
 END
-$$ LANGUAGE plpgsql
+$$ LANGUAGE plpgsql;
 
 
 
