@@ -1,5 +1,5 @@
-﻿DROP TABLE IF EXISTS "user", ach, game, gameOwn,"gameOwnAch","gameCat" CASCADE;
-DROP TABLE IF EXISTS friend, "gameAch", category CASCADE;
+﻿DROP TABLE IF EXISTS "user", ach, game, gameOwn,gameOwnAch,gameCat CASCADE;
+DROP TABLE IF EXISTS friend, gameAch, category, gameTime CASCADE;
 
 -- Create table "user"
 CREATE TABLE "user"(
@@ -33,12 +33,12 @@ CREATE TABLE ach (
     title varchar(50) NOT NULL UNIQUE
 );
 
--- Create table "gameAch"
-CREATE TABLE "gameAch" (
+-- Create table gameAch
+CREATE TABLE gameAch (
     id serial PRIMARY KEY,
     achId integer NOT NULL REFERENCES ach(id),
     gameId integer NOT NULL,
-    value integer NOT NULL CHECK (value <= 100 AND value > 0),
+    value integer NOT NULL CHECK (value <= 100 AND value >= 0),
     show boolean NOT NULL DEFAULT FALSE,
     descrBefore text,
     descrAfter text,
@@ -83,14 +83,14 @@ CREATE TABLE gameOwn (
 );
 
 -- Create table which shows game play times
-CREATE TABLE "gameTime" (
+CREATE TABLE gameTime (
     id serial PRIMARY KEY,
     gameOwnId integer REFERENCES gameOwn(id),
     playedOn timestamp with time zone
 );
 
--- Create table "gameOwnAch"
-CREATE TABLE "gameOwnAch" (
+-- Create table gameOwnAch
+CREATE TABLE gameOwnAch (
     gameOwn integer NOT NULL REFERENCES gameOwn(id),
     achId integer NOT NULL REFERENCES ach(id),
     dateAchieved timestamp with time zone 
@@ -103,8 +103,8 @@ CREATE TABLE category(
     rating integer CHECK (rating >= 0 AND rating <= 5)
 );
 
--- Create table "gameCat"
-CREATE TABLE "gameCat"(
+-- Create table gameCat
+CREATE TABLE gameCat(
     id serial PRIMARY KEY,
     catId integer REFERENCES category(id),
     gameId integer REFERENCES game(id),

@@ -1,4 +1,4 @@
-INSERT INTO "gameTime" 
+INSERT INTO gameTime 
 (gameOwnId, playedOn) VALUES 
 ('1','2014-05-17 12:17:12'),
 ('1','2014-05-10 05:35:17'),

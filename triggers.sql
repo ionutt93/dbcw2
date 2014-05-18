@@ -100,8 +100,8 @@ DECLARE
 BEGIN 
     n := 100;
     totalsum := 1000;
-    cn := count(id) FROM "gameAch" WHERE "gameAch".gameid = NEW.gameid;
-    asum := sum(value) FROM "gameAch" WHERE "gameAch".gameid = NEW.gameid;
+    cn := count(id) FROM gameAch WHERE gameAch.gameid = NEW.gameid;
+    asum := sum(value) FROM gameAch WHERE gameAch.gameid = NEW.gameid;
     IF cn >= n THEN
         RAISE EXCEPTION 'A game cannot have more than % achievements', n;
         RETURN NULL;
@@ -113,9 +113,9 @@ BEGIN
     RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
-DROP TRIGGER IF EXISTS check_gameAch ON "gameAch";
+DROP TRIGGER IF EXISTS check_gameAch ON gameAch;
 CREATE TRIGGER check_gameAch
-	BEFORE INSERT ON "gameAch"
+	BEFORE INSERT ON gameAch
 	FOR EACH ROW
 	EXECUTE PROCEDURE check_gameAch();
 
