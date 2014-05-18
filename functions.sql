@@ -41,7 +41,7 @@ BEGIN
     IF m_sorting = 'asc'::ordering THEN
         pctext := CASE pctext WHEN 'Top' THEN 'Bottom' ELSE 'Top' END;
     END IF;
-    RETURN format('%s points - %s (%s %s%%)',highscoreu,ranku,pctext,pc);
+    RETURN format('%s points(%s) - %s (%s %s%%)',highscoreu,m_currency::character varying,ranku,pctext,pc);
 END;
 $$ LANGUAGE plpgsql;
 
