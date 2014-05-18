@@ -1,0 +1,117 @@
+Question 4
+==========
+
+    SELECT * FROM my_game_status('murl','Goodwin, Windler and Morar');
+            my_game_status         
+    -------------------------------
+     110 points(int) - 4 (Top 27%)
+    (1 row)
+
+
+Question 10
+===========
+
+
+    DELETE FROM friend;
+    SELECT send_friend_request('dameon','sherwood','');
+    SELECT send_friend_request('dameon','gilda','');
+    SELECT send_friend_request('sasha.hartmann','dameon','');
+    SELECT send_friend_request('yvonne','dameon','');
+    SELECT friend_request_action('sherwood','dameon','accepted');
+    SELECT friend_request_action('dameon','yvonne','accepted');
+    SELECT friend_request_action('gilda','dameon','rejected');
+
+    SELECT unnest(my_friends('dameon')) AS friends;
+     friends  
+    ----------
+     sherwood
+     yvonne
+    (2 rows)
+
+Question 11
+===========
+    SELECT send_friend_request('gilda','billy','');
+    SELECT send_friend_request('gilda','murl','');
+    SELECT send_friend_request('gilda','linda','');
+    SELECT send_friend_request('gilda','liana','');
+    SELECT send_friend_request('gilda','arden','');
+    UPDATE friend SET status = 'accepted'::friendStatus;
+
+    SELECT * FROM friend_leaderboard('gilda','Goodwin, Windler and Morar');
+     trank | thighscore | tcurrency | tusername 
+    -------+------------+-----------+-----------
+         1 |         82 | int       | liana
+         2 |         85 | int       | linda
+         3 |        106 | int       | gilda
+         4 |        110 | int       | murl
+         5 |        122 | int       | arden
+    (5 rows)
+
+    SELECT * FROM friend_leaderboard('liana','Goodwin, Windler and Morar');                                                                                         
+     trank | thighscore | tcurrency | tusername 
+    -------+------------+-----------+-----------
+         1 |         82 | int       | liana
+         2 |        106 | int       | gilda
+    (2 rows)
+
+
+Question 12
+===========
+
+    SELECT * FROM friend_games('gilda');
+     fusername | floggedin |       flastlogin       | flastplayed 
+    -----------+-----------+------------------------+-------------
+     billy     | t         |                        | 
+     arden     | f         | 2012-08-18 01:13:53+01 | Kilback LLC
+     liana     | f         | 2013-07-20 12:48:40+01 | Kilback LLC
+     linda     | f         | 2012-11-25 07:55:08+00 | Kilback LLC
+     murl      | t         |                        | 
+    (5 rows)
+
+Question 18
+===========
+    SELECT send_friend_request('gilda','billy','');
+    SELECT send_friend_request('gilda','murl','');
+    SELECT send_friend_request('gilda','linda','');
+    SELECT send_friend_request('gilda','liana','');
+    SELECT send_friend_request('gilda','arden','');
+    SELECT send_friend_request('haylee','liana','');
+    SELECT send_friend_request('haylee','arden','');
+    UPDATE friend SET status = 'accepted'::friendStatus;
+
+    SELECT * FROM suggest_friend('gilda');
+     usernamer | common_friends_no | common_games_no 
+    -----------+-------------------+-----------------
+     haylee    |                 2 |               4
+    (1 row)
+
+Question 19
+===========
+    -- Most common game among friends that you do not own
+    SELECT suggest_game('gilda');
+             suggest_game          
+    -------------------------------
+     Dietrich, Altenwerth and Bins
+    (1 row)
+
+    DELETE FROM friend;
+    SELECT suggest_game('gilda');
+    ERROR:  Not enough friends or they all own the same games
+
+
+Question 20
+===========
+    -- clair has id=99 and rank 1 with score 123 in game id 1
+    SELECT highscore FROM gameown WHERE userid = 99 AND gameid = 1;
+     highscore 
+    -----------
+           123
+    UPDATE gameown SET highscore = highscore + 10 WHERE userid = 99 AND gameid = 1;
+    SELECT highscore FROM gameown WHERE userid = 99 AND gameid = 1;                                                                                                 
+     highscore 
+    -----------
+           127
+
+    -- score actually increased by 4 (40% of 10)
+
+

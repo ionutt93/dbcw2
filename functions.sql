@@ -139,7 +139,7 @@ BEGIN
     FROM friend
         JOIN "user" u1 ON u1.id = friend.userid1
         JOIN "user" u2 ON u2.id = friend.userid2
-        WHERE me_or_game_friends.username IN (u1.username,u2.username));
+        WHERE me_or_game_friends.username IN (u1.username,u2.username) AND friend.status = 'accepted') ;
     friends := array_append(friends,me_or_game_friends.username::text);
     RETURN friends;
 END;
@@ -213,7 +213,7 @@ BEGIN
     FROM friend
         JOIN "user" u1 ON u1.id = friend.userid1
         JOIN "user" u2 ON u2.id = friend.userid2
-        WHERE my_friends.username IN (u1.username,u2.username));
+        WHERE my_friends.username IN (u1.username,u2.username) AND friend.status = 'accepted');
     RETURN friends;
 END;
 $$ LANGUAGE plpgsql;
@@ -399,17 +399,18 @@ DECLARE
     added_friends int[];
 BEGIN
     SELECT id INTO myuserid FROM "user" AS u WHERE u.username = common_friends_users.username;
-    SELECT array_agg(userid2) INTO added_friends FROM friend WHERE userid1 = myuserid;
+    SELECT array_agg(userid2) INTO added_friends FROM friend WHERE userid1 = myuserid AND status = 'accepted';
     RETURN QUERY 
         SELECT sum(q.count)::int,q.userid::int FROM (
             (SELECT count(g2.userid1)::int,g2.userid1 AS userid FROM friend AS g1,friend AS g2 
-            WHERE g1.userid2 = g2.userid2 
+            WHERE g1.userid2 = g2.userid2 AND g1.status = 'accepted' AND g2.status = 'accepted'
             GROUP BY g2.userid1,g1.userid1 
             HAVING g1.userid1 = myuserid AND g2.userid1 != myuserid
             ORDER BY count DESC)
             UNION
             (SELECT count(g2.userid2)::int,g2.userid2 AS userid FROM friend AS g1,friend AS g2 
-            WHERE g1.userid2 = g2.userid1 AND g2.userid1 = any(added_friends)
+            WHERE g1.userid2 = g2.userid1 AND g1.status = 'accepted' AND g2.status = 'accepted'
+                AND g2.userid1 = any(added_friends)
             GROUP BY g2.userid2
             ORDER BY count DESC)) AS q
         GROUP BY q.userid;
@@ -455,7 +456,7 @@ BEGIN
             (array_remove(array[friend.userid1,friend.userid2],myuid))[1]
             AND gameOwn.userid != myuid
         JOIN game ON game.id = gameOwn.gameid
-        WHERE myuid IN (friend.userid1,friend.userid2) AND gameOwn.gameid != all(mygameids)
+        WHERE friend.status = 'accepted' AND myuid IN (friend.userid1,friend.userid2) AND gameOwn.gameid != all(mygameids)
         GROUP BY game.name ORDER BY count(game.name) DESC LIMIT 1;
     IF gamename IS NULL THEN
         RAISE EXCEPTION 'Not enough friends or they all own the same games';
