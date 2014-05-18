@@ -166,12 +166,22 @@ CREATE OR REPLACE FUNCTION leaderboard(
 RETURNS TABLE(trank bigint, thighscore int, tusername character varying) AS $$
 DECLARE
     myuid int;
+    m_sorting ordering;
+    m_gameid int;
     friends character varying[];
 BEGIN 
-    RETURN QUERY SELECT row_number() OVER (ORDER BY highscore DESC) AS rank,
-        highscore,u.username FROM gameOwn
-    JOIN "user" u ON u.id = gameOwn.userid
-    JOIN game ON game.id = gameown.gameid AND game.name = leaderboard.gamename;
+    SELECT id, sorting INTO m_gameid,m_sorting FROM game WHERE name = leaderboard.gamename;
+    IF m_sorting = 'desc'::ordering THEN
+        RETURN QUERY SELECT row_number() OVER (ORDER BY highscore DESC) AS rank,
+            highscore,u.username FROM gameOwn
+        JOIN "user" u ON u.id = gameOwn.userid
+        WHERE gameOwn.gameid = m_gameid;
+    ELSE
+        RETURN QUERY SELECT row_number() OVER (ORDER BY highscore ASC) AS rank,
+            highscore,u.username FROM gameOwn
+        JOIN "user" u ON u.id = gameOwn.userid
+        WHERE gameOwn.gameid = m_gameid;
+    END IF;
 END;
 $$ LANGUAGE plpgsql;
 

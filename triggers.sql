@@ -67,7 +67,6 @@ BEGIN
             multiplier := 1.4;
     END CASE;
 
-    RAISE NOTICE 'derp %', ratio;
     -- old +  diff*multiplier
     NEW.highscore := round(OLD.highscore + (NEW.highscore - OLD.highscore)*multiplier);
 
