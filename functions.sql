@@ -1,3 +1,15 @@
+-- Question 1
+CREATE OR REPLACE FUNCTION q1(IN game_id INTEGER)
+RETURNS table( username character varying ) AS $$
+BEGIN
+    RETURN QUERY
+        SELECT "user".username FROM "user", game, gameOwn WHERE 
+            game.id = q1.game_id AND
+            game.id = gameOwn.gameId AND
+            gameOwn.userId = "user".id; 
+END
+$$ LANGUAGE plpgsql;
+
 -- Question 4
 CREATE OR REPLACE FUNCTION q4(IN username varchar(255), IN gamename character varying) 
 RETURNS table(op varchar(255)) AS $$ 
@@ -28,6 +40,31 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Question 7
+CREATE OR REPLACE FUNCTION q7(IN param character varying)
+RETURNS TABLE (
+    f_game_name character varying,
+    f_user_name character varying,
+    f_highScore integer
+    ) AS $$
+BEGIN
+    RETURN QUERY 
+        SELECT game.name, username, "d_highScore" FROM
+            (SELECT game.id as "d_gameId", MAX(highScore) as "d_highScore"
+            FROM game, "user", gameOwn WHERE
+                game.id = gameOwn.gameId AND
+                "user".id = gameOwn.userId AND
+                (CASE q7.param  
+                    WHEN 'weekly' THEN date_ach::date >= (current_date - integer '7')
+                    WHEN 'daily'  THEN date_ach::date = current_date END)
+            GROUP BY game.id) as d_table, game, "user", gameOwn WHERE
+                game.id = "d_gameId" AND
+                gameId = game.id AND
+                userId = "user".id AND
+                highScore = "d_highScore"
+            ORDER BY highScore DESC;
+END
+$$ LANGUAGE plpgsql;
 
 -- Question 10
 CREATE OR REPLACE FUNCTION send_friend_request(

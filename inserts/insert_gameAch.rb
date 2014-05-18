@@ -2,6 +2,8 @@ require 'faker'
 require 'rubystats'
 
 n = 30
+date_min = Date.new(2014,05,01).to_time.to_i
+date_max = Date.new(2014,05,20).to_time.to_i
 
 puts 'INSERT INTO "gameAch" 
 (achID,gameID,value,show,descrBefore,descrAfter,icon) VALUES '

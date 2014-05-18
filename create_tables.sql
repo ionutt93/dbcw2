@@ -76,9 +76,17 @@ CREATE TABLE gameOwn (
     rating integer CHECK (rating >= 0 AND rating <= 5),
     comment text,
     lastPlayed timestamp with time zone,
+    date_ach timestamp with time zone,
     highScore integer NOT NULL DEFAULT 0,
     receiveNotif boolean NOT NULL DEFAULT TRUE,
     rank integer
+);
+
+-- Create table which shows game play times
+CREATE TABLE "gameTime" (
+    id serial PRIMARY KEY,
+    gameOwnId integer REFERENCES gameOwn(id),
+    playedOn timestamp with time zone
 );
 
 -- Create table "gameOwnAch"
