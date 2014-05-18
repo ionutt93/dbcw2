@@ -20,20 +20,26 @@ DECLARE
     highscoreu int;
     pc int;
     pctext character varying;
+    m_currency game_currency;
+    m_sorting ordering;
 BEGIN 
     totalu := count(highscore) FROM gameOwn JOIN game ON game.name = my_game_status.gamename 
         AND game.id = gameOwn.gameid;
-    SELECT INTO ranku,highscoreu sq.rank,sq.highscore FROM
+    SELECT INTO ranku,highscoreu,m_currency,m_sorting sq.rank,sq.highscore,sq.value_type,sq.sorting FROM
     (SELECT row_number() OVER (ORDER BY highscore DESC) AS rank,
-        highscore,u.username FROM gameOwn
+        highscore,u.username,game.value_type,game.sorting FROM gameOwn
     JOIN "user" u ON u.id = gameOwn.userid
     JOIN game ON game.id = gameown.gameid AND game.name = my_game_status.gamename) AS sq 
     WHERE sq.username = my_game_status.username;
-    pc := 100*ranku/CAST(totalu AS double precision);
+    pc := round(100*ranku/CAST(totalu AS double precision));
     pctext := 'Top';
     IF pc > 50 THEN
         pc := 100 - pc;
         pctext := 'Bottom';
+    END IF;
+    pc := max(a) FROM unnest(array[1,pc]) AS a;
+    IF m_sorting = 'asc'::ordering THEN
+        pctext := CASE pctext WHEN 'Top' THEN 'Bottom' ELSE 'Top' END;
     END IF;
     RETURN format('%s points - %s (%s %s%%)',highscoreu,ranku,pctext,pc);
 END;
