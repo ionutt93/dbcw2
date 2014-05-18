@@ -216,11 +216,39 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION q14(
+    IN my_user_id integer)
+RETURNS TABLE (
+    n_username character varying,
+    n_status text,
+    n_games bigint,
+    n_ach_points bigint,
+    n_friends bigint
+    ) AS $$
+BEGIN
+    RETURN QUERY
+        SELECT firstT.username, firstT.status, firstT."gameNo", secondT."Total achievement points", secondT."No of friends" FROM (SELECT "user".username, "user".status, COUNT(gameOwn.gameId) AS "gameNo" FROM "user", gameOwn WHERE
+        "user".id = q14.my_user_id AND
+        gameOwn.userId = "user".id
+        GROUP BY username, status) as firstT
+    JOIN 
+    (SELECT username, SUM("gameAch".value) AS "Total achievement points", COUNT(DISTINCT(friend.userId2)) AS "No of friends" FROM "user", gameOwn, "gameAch", "gameOwnAch", friend WHERE
+        "user".id = q14.my_user_id AND
+        gameOwn.userId = "user".id AND
+        "gameOwnAch".gameOwn = gameOwn.id AND
+        "gameOwnAch".achId = "gameAch".achId AND
+        gameOwn.gameId = "gameAch".gameId AND
+        friend.userId1 = "user".id AND
+        friend.status = 'accepted'
+        GROUP BY username) AS secondT
+    ON firstT.userName = secondT.userName;
+END
+$$ LANGUAGE plpgsql;
 
-DROP FUNCTION q15(character varying,character varying);
+DROP IF EXISTS FUNCTION q15(character varying,character varying);
 CREATE OR REPLACE FUNCTION q15(
-    IN my_username character varying,
-    IN my_game character varying)
+    IN my_user_id integer,
+    IN my_game_id integer)
 RETURNS TABLE (
     f_ach_title character varying,
     f_ach_value integer,
@@ -233,8 +261,8 @@ BEGIN
                 (CASE "gameOwnAch".dateAchieved != NULL WHEN TRUE THEN "gameAch".descrAfter ELSE "gameAch".descrBefore END),
                 "gameOwnAch".dateAchieved
         FROM "user", game, "gameOwnAch", gameOwn, ach, "gameAch"
-        WHERE "user".username = q15.my_username AND
-             game.name = q15.my_game AND 
+        WHERE "user".id = q15.my_user_id AND
+             game.id = q15.my_game_id AND 
              "user".id = gameOwn.userId AND
               game.id = gameOwn.gameId AND
               gameOwn.id = "gameOwnAch".gameOwn AND
