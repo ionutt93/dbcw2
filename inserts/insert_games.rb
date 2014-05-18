@@ -2,8 +2,7 @@ require 'faker'
 require 'digest/sha1'
 salt = 'saltysalt'
 
-n = 100
-
+n = 30
 date_min = Date.new(2010,01,01).to_time.to_i
 date_max = Date.new(2014,01,01).to_time.to_i
 puts 'INSERT INTO "game" 
@@ -15,10 +14,11 @@ n.times do |i|
     description = Faker::Lorem.words(20).join(" ")
     img =  Faker::Internet.url
     website =  Faker::Internet.url
-
     puts "('#{name}','#{date_released}' :: date,'#{publisher}','#{description}','#{img}','#{website}')" +
       (if i < (n-1) then ', ' else '' end)
 
 end
+
+
 
 
