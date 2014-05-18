@@ -1,4 +1,4 @@
-INSERT INTO "gameCat" 
+INSERT INTO gameCat 
 (catID,gameID,rank) VALUES 
 ('30','1','1'), 
 ('19','1','1'), 

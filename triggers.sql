@@ -43,21 +43,82 @@ CREATE TRIGGER show_rating
 
 --Question 6
 CREATE OR REPLACE FUNCTION check_score_range() RETURNS trigger AS $$
+DECLARE
+    myrank int;
+    totalu int;
+    ratio float;
+    multiplier float;
 BEGIN 
-	IF (SELECT highScore FROM gameOwn WHERE ID=NEW.ID) < (SELECT minimum FROM game WHERE ID=NEW.gameID) THEN
-		RAISE NOTICE 'New Highscore is too low.';
-	ELSEIF (SELECT highScore FROM gameOwn WHERE ID=NEW.ID) > (SELECT maximum FROM game WHERE ID=NEW.gameID) THEN
-		RAISE NOTICE 'New Highscore is too high.';
+
+    
+    SELECT count(highscore) INTO totalu FROM gameOwn WHERE gameid = OLD.gameid;
+    SELECT q.rank INTO myrank FROM
+        (SELECT row_number() OVER (ORDER BY highscore DESC) AS rank,userid FROM gameOwn
+        WHERE gameid = OLD.gameid) AS q WHERE q.userid = OLD.userid;
+    ratio := myrank/(totalu::float);
+    CASE
+        WHEN ratio < 0.25 THEN
+            multiplier := 0.4;
+        WHEN ratio BETWEEN 0.25 AND 0.5 THEN
+            multiplier := 0.8;
+        WHEN ratio BETWEEN 0.5 AND 0.75 THEN
+            multiplier := 1.2;
+        WHEN ratio > 0.75 THEN
+            multiplier := 1.4;
+    END CASE;
+
+    -- old +  diff*multiplier
+    NEW.highscore := round(OLD.highscore + (NEW.highscore - OLD.highscore)*multiplier);
+
+
+	IF NEW.highscore < (SELECT minimum FROM game WHERE ID=NEW.gameID) THEN
+		RAISE EXCEPTION 'New Highscore is too low.';
+        RETURN NULL;
+	ELSEIF NEW.highscore > (SELECT maximum FROM game WHERE ID=NEW.gameID) THEN
+		RAISE EXCEPTION 'New Highscore is too high.';
+        RETURN NULL;
 	END IF;
-	RETURN NULL;
+
+	RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
 DROP TRIGGER IF EXISTS check_score ON gameOwn;
 CREATE TRIGGER check_score
-	AFTER UPDATE OF highScore ON gameOwn
+	BEFORE UPDATE OF highScore ON gameOwn
 	FOR EACH ROW
 	EXECUTE PROCEDURE check_score_range();
+
+CREATE OR REPLACE FUNCTION check_gameAch() RETURNS trigger AS $$
+DECLARE
+    n int;
+    totalsum int;
+
+    asum int;
+    cn int;
+BEGIN 
+    n := 100;
+    totalsum := 1000;
+    cn := count(id) FROM gameAch WHERE gameAch.gameid = NEW.gameid;
+    asum := sum(value) FROM gameAch WHERE gameAch.gameid = NEW.gameid;
+    IF cn >= n THEN
+        RAISE NOTICE 'A game cannot have more than % achievements', n;
+        RETURN NULL;
+    END IF;
+    IF asum >= totalsum THEN
+        RAISE NOTICE 'A game cannot have more than % total value from achievements', totalsum;
+        RETURN NULL;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+DROP TRIGGER IF EXISTS check_gameAch ON gameAch;
+CREATE TRIGGER check_gameAch
+	BEFORE INSERT ON gameAch
+	FOR EACH ROW
+	EXECUTE PROCEDURE check_gameAch();
+
+
 
 --Question 8
 -- Assume lock deletes the account
@@ -115,3 +176,7 @@ CREATE TRIGGER check_username
 	AFTER INSERT ON "user"
 	FOR EACH ROW
 	EXECUTE PROCEDURE check_username_offensive();
+
+
+
+
