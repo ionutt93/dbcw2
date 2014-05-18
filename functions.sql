@@ -147,16 +147,24 @@ RETURNS TABLE(trank bigint, thighscore int, tusername character varying) AS $$
 DECLARE
     myuid int;
     friends character varying[];
+    m_sorting ordering;
+    m_gameid int;
 BEGIN 
     friends :=  me_or_game_friends(friend_leaderboard.username,friend_leaderboard.gamename);
     SELECT INTO myuid id FROM "user" AS u WHERE u.username = friend_leaderboard.username;
 
-
-    RETURN QUERY SELECT row_number() OVER (ORDER BY highscore DESC) AS rank,
-        highscore,u.username FROM gameOwn
-    JOIN "user" u ON u.id = gameOwn.userid
-    JOIN game ON game.id = gameown.gameid AND game.name = friend_leaderboard.gamename
-    WHERE u.username =  ANY(friends);
+    SELECT id, sorting INTO m_gameid,m_sorting FROM game WHERE name = friend_leaderboard.gamename;
+    IF m_sorting = 'desc'::ordering THEN
+        RETURN QUERY SELECT row_number() OVER (ORDER BY highscore DESC) AS rank,
+            highscore,u.username FROM gameOwn
+        JOIN "user" u ON u.id = gameOwn.userid
+        WHERE u.username =  ANY(friends) AND gameOwn.gameid = m_gameid;
+    ELSE
+        RETURN QUERY SELECT row_number() OVER (ORDER BY highscore ASC) AS rank,
+            highscore,u.username FROM gameOwn
+        JOIN "user" u ON u.id = gameOwn.userid
+        WHERE u.username =  ANY(friends) AND gameOwn.gameid = m_gameid;
+    END IF;
 END;
 $$ LANGUAGE plpgsql;
 
