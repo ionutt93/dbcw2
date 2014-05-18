@@ -142,25 +142,26 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION friend_leaderboard(
     IN username character varying, -- my username
     IN gamename character varying) -- game name
-RETURNS TABLE(trank bigint, thighscore int, tusername character varying) AS $$
+RETURNS TABLE(trank bigint, thighscore int, tcurrency game_currency, tusername character varying) AS $$
 DECLARE
     myuid int;
     friends character varying[];
     m_sorting ordering;
     m_gameid int;
+    m_currency game_currency;
 BEGIN 
     friends :=  me_or_game_friends(friend_leaderboard.username,friend_leaderboard.gamename);
     SELECT INTO myuid id FROM "user" AS u WHERE u.username = friend_leaderboard.username;
 
-    SELECT id, sorting INTO m_gameid,m_sorting FROM game WHERE name = friend_leaderboard.gamename;
+    SELECT id, sorting, value_type INTO m_gameid,m_sorting,m_currency FROM game WHERE name = friend_leaderboard.gamename;
     IF m_sorting = 'desc'::ordering THEN
         RETURN QUERY SELECT row_number() OVER (ORDER BY highscore DESC) AS rank,
-            highscore,u.username FROM gameOwn
+            highscore,m_currency,u.username FROM gameOwn
         JOIN "user" u ON u.id = gameOwn.userid
         WHERE u.username =  ANY(friends) AND gameOwn.gameid = m_gameid;
     ELSE
         RETURN QUERY SELECT row_number() OVER (ORDER BY highscore ASC) AS rank,
-            highscore,u.username FROM gameOwn
+            highscore,m_currency,u.username FROM gameOwn
         JOIN "user" u ON u.id = gameOwn.userid
         WHERE u.username =  ANY(friends) AND gameOwn.gameid = m_gameid;
     END IF;
@@ -170,22 +171,23 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION leaderboard(
     IN gamename character varying) -- game name
-RETURNS TABLE(trank bigint, thighscore int, tusername character varying) AS $$
+RETURNS TABLE(trank bigint, thighscore int,tcurrency game_currency, tusername character varying) AS $$
 DECLARE
     myuid int;
     m_sorting ordering;
     m_gameid int;
     friends character varying[];
+    m_currency game_currency;
 BEGIN 
-    SELECT id, sorting INTO m_gameid,m_sorting FROM game WHERE name = leaderboard.gamename;
+    SELECT id, sorting, value_type INTO m_gameid,m_sorting,m_currency FROM game WHERE name = leaderboard.gamename;
     IF m_sorting = 'desc'::ordering THEN
         RETURN QUERY SELECT row_number() OVER (ORDER BY highscore DESC) AS rank,
-            highscore,u.username FROM gameOwn
+            highscore,m_currency,u.username FROM gameOwn
         JOIN "user" u ON u.id = gameOwn.userid
         WHERE gameOwn.gameid = m_gameid;
     ELSE
         RETURN QUERY SELECT row_number() OVER (ORDER BY highscore ASC) AS rank,
-            highscore,u.username FROM gameOwn
+            highscore,m_currency,u.username FROM gameOwn
         JOIN "user" u ON u.id = gameOwn.userid
         WHERE gameOwn.gameid = m_gameid;
     END IF;
