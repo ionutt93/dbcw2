@@ -11,8 +11,8 @@ END
 $$ LANGUAGE plpgsql;
 
 -- Question 4
-CREATE OR REPLACE FUNCTION q4(IN username varchar(255), IN gamename character varying) 
-RETURNS table(op varchar(255)) AS $$ 
+CREATE OR REPLACE FUNCTION my_game_status(IN username varchar(255), IN gamename character varying) 
+RETURNS character varying AS $$ 
 DECLARE
     op character varying;
     totalu int;
@@ -21,22 +21,21 @@ DECLARE
     pc int;
     pctext character varying;
 BEGIN 
-    totalu := count(highscore) FROM gameOwn JOIN game ON game.name = q4.gamename 
+    totalu := count(highscore) FROM gameOwn JOIN game ON game.name = my_game_status.gamename 
         AND game.id = gameOwn.gameid;
     SELECT INTO ranku,highscoreu sq.rank,sq.highscore FROM
     (SELECT row_number() OVER (ORDER BY highscore DESC) AS rank,
         highscore,u.username FROM gameOwn
     JOIN "user" u ON u.id = gameOwn.userid
-    JOIN game ON game.id = gameown.gameid AND game.name = q4.gamename) AS sq 
-    WHERE sq.username = q4.username;
+    JOIN game ON game.id = gameown.gameid AND game.name = my_game_status.gamename) AS sq 
+    WHERE sq.username = my_game_status.username;
     pc := 100*ranku/CAST(totalu AS double precision);
     pctext := 'Top';
     IF pc > 50 THEN
         pc := 100 - pc;
         pctext := 'Bottom';
     END IF;
-    q4.op := format('%s points - %s (%s %s%%)',highscoreu,ranku,pctext,pc);
-    RETURN next;
+    RETURN format('%s points - %s (%s %s%%)',highscoreu,ranku,pctext,pc);
 END;
 $$ LANGUAGE plpgsql;
 
@@ -147,16 +146,24 @@ RETURNS TABLE(trank bigint, thighscore int, tusername character varying) AS $$
 DECLARE
     myuid int;
     friends character varying[];
+    m_sorting ordering;
+    m_gameid int;
 BEGIN 
     friends :=  me_or_game_friends(friend_leaderboard.username,friend_leaderboard.gamename);
     SELECT INTO myuid id FROM "user" AS u WHERE u.username = friend_leaderboard.username;
 
-
-    RETURN QUERY SELECT row_number() OVER (ORDER BY highscore DESC) AS rank,
-        highscore,u.username FROM gameOwn
-    JOIN "user" u ON u.id = gameOwn.userid
-    JOIN game ON game.id = gameown.gameid AND game.name = friend_leaderboard.gamename
-    WHERE u.username =  ANY(friends);
+    SELECT id, sorting INTO m_gameid,m_sorting FROM game WHERE name = friend_leaderboard.gamename;
+    IF m_sorting = 'desc'::ordering THEN
+        RETURN QUERY SELECT row_number() OVER (ORDER BY highscore DESC) AS rank,
+            highscore,u.username FROM gameOwn
+        JOIN "user" u ON u.id = gameOwn.userid
+        WHERE u.username =  ANY(friends) AND gameOwn.gameid = m_gameid;
+    ELSE
+        RETURN QUERY SELECT row_number() OVER (ORDER BY highscore ASC) AS rank,
+            highscore,u.username FROM gameOwn
+        JOIN "user" u ON u.id = gameOwn.userid
+        WHERE u.username =  ANY(friends) AND gameOwn.gameid = m_gameid;
+    END IF;
 END;
 $$ LANGUAGE plpgsql;
 
